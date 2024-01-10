@@ -10,8 +10,10 @@ package Instruction is
         Post => test and (val_cp = cp);
     
 
-	-- affecter une valeur à une variable 
-	procedure affectation (variable : in out T_variable, valeur : in integer) with
-        Post => variable'valeur = valeur;
-
+    -- affecter une valeur à une variable
+    procedure affectation (nom_variable : in string, valeur : in integer);
+    
+    procedure operation(var_1 : in T_variable, var_2 : in T_variable, operateur : in string);
+    
+    
 end Instruction;
