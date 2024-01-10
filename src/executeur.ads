@@ -1,4 +1,4 @@
-package Instruction is
+package Executeur is
 
 	-- Réaliser un branchement, mettre cp à la valeur souhaité 
 	procedure branchement(val_cp : in integer, cp : out integer) with
@@ -16,4 +16,4 @@ package Instruction is
     procedure operation(var_1 : in T_variable, var_2 : in T_variable, operateur : in string);
     
     
-end Instruction;
+end Executeur;

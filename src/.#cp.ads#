@@ -1,9 +1,0 @@
-package cp is
-
-    procedure pc_plus_1(cp : in Integer);
-    
-    procedure branchement_cp(cp : in Integer, valeur : in Integer);
-    
-    function retourner_cp(
-
-end cp;
