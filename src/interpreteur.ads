@@ -1,4 +1,4 @@
-package TraiterLigne is
+package Interpreteur is
 
     CAPACITE : constant Integer := 4;      -- nombre maximum d'instructions par ligne
 
@@ -8,6 +8,6 @@ package TraiterLigne is
 
 private
 
-    type T_Instruction is array (1..CAPACITE) of T_Materiel;
+    type T_Instruction is array (1..CAPACITE) of string;
 
-end TraiterLigne;
+end Interpreteur;
