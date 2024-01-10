@@ -1,6 +1,6 @@
 with Ada.Strings.Unbounded;
 
-package primitif is
+package Primitif is
 
 	type T_primitif is limited private;
 

@@ -1,4 +1,4 @@
-package instruction is
+package Instruction is
 
 	type T_ABR is limited private;
 
