@@ -3,6 +3,9 @@
 -- économiser l'espace de stockage et les temps de calculs, on ne conserve que
 -- les valeurs non nulles.
 
+generic
+    type T_Element is private;
+
 package Vecteurs_Creux is
 
 	type T_Vecteur_Creux is limited private;
@@ -29,7 +32,7 @@ package Vecteurs_Creux is
 	-- Modifier une composante (Indice, Valeur) d'un vecteur creux.
 	procedure Modifier (V : in out T_Vecteur_Creux ;
 				       Indice : in Integer ;
-					   Valeur : in Float ) with
+					   Valeur : in T_Element ) with
 		pre => Indice >= 1,
 		post => Composante_Recursif (V, Indice) = Valeur;
 
@@ -54,7 +57,7 @@ private
 	type T_Cellule is
 		record
 			Indice : Integer;
-			Valeur : FLoat;
+			Valeur : T_Element;
 			Suivant : T_Vecteur_Creux;
 			-- Invariant :
 			--   Indice >= 1;
