@@ -1,0 +1,2 @@
+main.adb:19:14: error: nonscalar 'Image is an Ada 2022 feature
+main.adb:19:14: error: unit must be compiled with -gnat2022 switch
