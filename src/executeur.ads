@@ -13,6 +13,7 @@ package Executeur is
     -- affecter une valeur à une variable
     procedure affectation (nom_variable : in string, valeur : in integer);
     
+    -- 
     procedure operation(var_1 : in T_variable, var_2 : in T_variable, operateur : in string);
     
     
