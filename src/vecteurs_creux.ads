@@ -25,7 +25,7 @@ package Vecteurs_Creux is
 
 
 	-- Récupérer la composante (valeur) du vecteur V à l'indice Indice.
-	function Composante (V : in T_Vecteur_Creux ; Indice : in Integer) return Float
+	function Composante (V : in T_Vecteur_Creux ; Indice : in Integer) return T_Element;
 		with Pre => Indice >= 1;
 
 
