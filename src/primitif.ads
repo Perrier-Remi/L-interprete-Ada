@@ -29,7 +29,7 @@ private
 		record
 			Nom: unbouded_string; --chaine de caractère
 			Valeur : Integer;
-			Type_var : T_type; --chaine de caractère
+			Type_var : T_type; --chaine de caractare
 
 		end record;
 
