@@ -69,4 +69,15 @@ package Memoire is
 
 
 
+
+
+   --private
+
+
+      --type T_Variable is record
+      --   Tab_var : T_Tab_Variable; --tableau contenant les variables
+      --   Taille : Integer; --taille du tableau qui est défini
+      --end record;
+
+
 end Memoire;
