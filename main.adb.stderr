@@ -1,6 +1,0 @@
-main.adb:1:17: warning: no entities of "Ada.Strings.Unbounded" are referenced [-gnatwu]
-main.adb:1:29: warning: use clause for package "Unbounded" has no effect [-gnatwu]
-main.adb:2:09: warning: no entities of "Ada.Text_IO" are referenced [-gnatwu]
-main.adb:2:19: warning: use clause for package "Text_IO" has no effect [-gnatwu]
-main.adb:12:05: warning: variable "T_Prog" is assigned but never read [-gnatwm]
-main.adb:25:15: warning: procedure "Initialiser_Programme" is not referenced [-gnatwu]
