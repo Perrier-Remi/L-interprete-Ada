@@ -11,20 +11,22 @@ package body Memoire is
    --end Initialiser;
    
 
+      function Creer_Tab_Variable return T_Tab_Variable is
+      Variable : T_Tab_Variable := (others => (Nom => To_Unbounded_String(""), Valeur => 0, Code => 0));
+   begin
+      return Variable;
+   end Creer_Tab_Variable;
+   
    procedure Initialiser (Variable : out T_Variable) is
    begin
       Variable.Taille := 0;
       Variable.Tab_var := Creer_Tab_Variable;
    end Initialiser;
 
-   
 
-   function Creer_Tab_Variable return T_Tab_Variable is
-   Variable : T_Tab_Variable := (others => (Nom => To_Unbounded_String(""), Valeur => 0, Code => 0));
-   begin
-      return Variable;
-   end Creer_Tab_Variable;
-
+ --  function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Donee_Variable with
+ --  Pre => Code >= 0,
+ --  Post => Creer_Donee_Variable'Result.Code = Code;
 
 function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Donee_Variable is
    Variable : T_Donee_Variable;
