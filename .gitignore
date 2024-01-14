@@ -11,3 +11,4 @@
 *.cswi
 *.stderr
 *.stdout
+b__*
