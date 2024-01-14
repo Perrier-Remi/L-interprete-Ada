@@ -1,6 +1,5 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
-with Vecteurs_Creux;
 
 procedure Main is
     
@@ -25,18 +24,18 @@ procedure Main is
     -- i, a, b : Integer
     procedure Initialiser_Programme is
     begin
-        T_Prog[1] := (1,  2, -12, 0, 1, 0);
-        T_Prog[2] := (2,  1,  -3, 1, 0, 1);
-        T_Prog[3] := (3,  1,  -3, 2, 0, 0);
-        T_Prog[4] := (-1, 3,  -2, 6, 0, 1);
-        T_Prog[5] := (3,  0, -12, 0, 1, 0);
-        T_Prog[6] := (2, 12, -12, 0, 1, 0);
-        T_Prog[7] := (0,  0,   0, 0, 0, 0);
+        T_Prog(1) := (1,  2, -12, 0, 1, 0);
+        T_Prog(2) := (2,  1,  -3, 1, 0, 1);
+        T_Prog(3) := (3,  1,  -3, 2, 0, 0);
+        T_Prog(4) := (-1, 3,  -2, 6, 0, 1);
+        T_Prog(5) := (3,  0, -12, 0, 1, 0);
+        T_Prog(6) := (2, 12, -12, 0, 1, 0);
+        T_Prog(7) := (0,  0,   0, 0, 0, 0);
     end Initialiser_Programme;
     
     
 begin
 
-    
+    null;
     
 end Main;
