@@ -30,15 +30,6 @@ package Memoire is
    procedure Initialiser (Variable : out T_Variable) with
    Post => Variable.Taille = 0;
 
-   function Creer_Tab_Variable return T_Tab_Variable;
-
-
-   
-   function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Donee_Variable with
-   Pre => Code >= 0,
-   Post => Creer_Donee_Variable'Result.Code = Code;
-
-
 
 
 	-- Créer une variable avec son code, sa valeur et son nom passé en paramètre
