@@ -9,3 +9,5 @@
 *.cgpr
 *.xml
 *.cswi
+*.sdterr
+*.stdout
