@@ -4,7 +4,8 @@ package Interpreteur is
 
     type T_Instruction is array (1..NB_INSTRUCTIONS) of Integer;
 
-    -- procedure permettant d'executer une ligne du programme
-    procedure executer_ligne(instruction : in T_Instruction; cp : Integer) ;
+    -- fonction permettant d'executer une ligne du programme
+    -- retourne 1 si le programme doit continuer et 0 si l'instruction est la dernière ligne du programme
+    function executer_ligne(instruction : in T_Instruction; cp : in out Integer) return Integer;
 
 end Interpreteur;

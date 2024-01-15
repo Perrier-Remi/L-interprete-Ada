@@ -1,13 +1,11 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
+with Interpreteur; use Interpreteur;
 
 procedure Main is
     
-    NB_INSTRUCTIONS : Constant Integer := 6;
     MAX_LIGNES_PROGRAMME : Constant Integer := 1000;
-    
-    type Instruction is array (1..NB_INSTRUCTIONS) of Integer;
-    type Programme is array (1..MAX_LIGNES_PROGRAMME) of Instruction;
+    type Programme is array (1..MAX_LIGNES_PROGRAMME) of Interpreteur.T_Instruction;
 
     T_Prog : Programme;
     
