@@ -17,10 +17,9 @@ package Executeur is
         Post => Renvoie_Variable(memoire, variable).Valeur = valeur;
     
     
-    -- effectuer une opération avec deux variables sources et écrire le résultat dans une variable destination
-    -- src1 et src2 peuvent représenter une variable ou une constante
-    -- src1 est une constante si src1Const est vrai (1) sinon (0) src1 représente une variable, pareil pour src2
-    procedure operation(memoire : in out T_Memoire; varDest : in Integer; src1 : in Integer; src2 : in Integer; operateur : in integer; src1Const : in integer; src2Const : in integer);
+    -- effectuer une opération avec deux valeurs sources et écrire le résultat dans une variable destination
+    -- src1 et src2 sont des constantes
+    procedure operation(memoire : in out T_Memoire; varDest : in Integer; src1 : in Integer; src2 : in Integer; operateur : in integer);
     
     
     

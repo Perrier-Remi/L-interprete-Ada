@@ -1,0 +1,7 @@
+Raffinage de l'interpreteur :
+
+procedure executer_ligne :
+	R0 : exécuter une ligne de programme
+	R1 : Comment exécuter une ligne de programme
+	
+	
