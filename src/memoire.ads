@@ -16,13 +16,13 @@ package Memoire is
    
    type T_Memoire is record
          Tab_var : T_Tab_Variable; --tableau contenant les variables
-         Taille : Integer; --taille du tableau qui est défini
+         Taille : Integer; --taille du tableau qui est dÃ©fini
    end record;
    --type T_Variable is limited private;
    
 
 
-	-- Initialiser la structure de donné composé d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau défini
+	-- Initialiser la structure de donnÃ© composÃ© d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau dÃ©fini
    --procedure Initialiser(Variable : out T_Variable);
    
 
@@ -30,18 +30,14 @@ package Memoire is
    procedure Initialiser (Memoire : out T_Memoire) with
    Post => Memoire.Taille = 0;
 
-	-- Créer une variable avec son code, sa valeur et son nom passé en paramètre
+	-- CrÃ©er une variable avec son code, sa valeur et son nom passÃ© en paramÃ¨tre
  --procedure Creer_Variable (Code : in integer; Valeur : in integer; Nom : in Unbounded_String;  Variable : in out T_Variable) with
-   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire) with
-     Post => (Memoire.Tab_var(Memoire.Taille).Code = Code);
-   --        Le dernier élément de Tab_Var a le code, la valeur et le nom spécifiés.
-   --
-   --
-   --
-	-- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
+   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire);
+
+	-- Affecter la variable avec la valeur passÃ© en paramÃ¨tre et appelle de la fonction affecter du bon package
    procedure Affectation_Variable (Code : in integer; Valeur : in integer; Memoire : in out T_Memoire);
 
-   --Renvoie la variable correspondante au code passé en paramètre
+   --Renvoie la variable correspondante au code passÃ© en paramÃ¨tre
    function Renvoie_Variable (Memoire : in T_Memoire; Code : in integer) return T_Variable with
    -- Check pour post condition renvoie variable correspondante au code
    Post => Renvoie_Variable'Result.Code = Code;
@@ -49,9 +45,9 @@ package Memoire is
    --Renvoie tous le tableau de variable
    function Renvoie_Tab_Variable (Memoire : in T_Memoire) return T_Tab_Variable ;
 
-   --Renvoie la valeur maximun du code, le code maximun est stocké dans le dernier enregistrement
+   --Renvoie la valeur maximun du code, le code maximun est stockÃ© dans le dernier enregistrement
    function Renvoie_Code_Max (Memoire : in T_Memoire) return Integer;
-   --Check post condition renvoie code du dernier record défini
+   --Check post condition renvoie code du dernier record dÃ©fini
    
    function Renvoie_Taille (Memoire : in T_Memoire) return Integer;
    

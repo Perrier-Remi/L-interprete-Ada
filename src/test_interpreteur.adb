@@ -29,24 +29,24 @@ begin
     
     -- test instruction branchement
     instruction := (-2, 3, -12, 0, 1, 0); -- GOTO 3
-    pragma Assert(executer_ligne(instruction, cp) = 1);
+    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
     pragma Assert(cp = 3);
 
     -- test instruction condition
     instruction := (-1, 1, -2, 5, 0, 1); -- IF var1 GOTO 5
-    pragma Assert(executer_ligne(instruction, cp) = 1);
+    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
     pragma Assert(cp = 5);
 
     -- test instruction affectation
     instruction := (1, 3, -12, 0, 1, 0); -- var1 <- 3
-    pragma Assert(executer_ligne(instruction, cp) = 1);
+    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
     pragma Assert(cp = 5);
     pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur = 3);
 
     
     --test instruction operation
     instruction := (1, 3, -3, 4, 1, 1); -- var1 <- 3 + 4
-    pragma Assert(executer_ligne(instruction, cp) = 1);
+    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
     pragma Assert(cp = 5);
     pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur = 7);
    

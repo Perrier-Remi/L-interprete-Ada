@@ -1,6 +1,15 @@
 with Memoire; use Memoire;
 
 package body executeur is
+    
+    function integer_value(input : in Boolean) return Integer is
+    begin
+        if input then
+            return 1;
+        else
+            return 0;
+        end if;
+    end;
 
     function branchement(valCp : in integer; nouveauCp : in integer) return Integer is
     begin
@@ -18,12 +27,12 @@ package body executeur is
         return resultat;
     end;
     
-    procedure affectation (memoire : in out T_Memoire; varDest : in integer; valeur : in integer) is
+    procedure affectation (mem : in out T_Memoire; varDest : in integer; valeur : in integer) is
     begin
-        Memoire.Affectation_Variable(varDest, valeur, memoire);
+        Memoire.Affectation_Variable(varDest, valeur, mem);
     end;
 
-    procedure operation(memoire : in out T_Memoire; varDest : in Integer; valSource1 : in Integer; valSource2 : in Integer; operateur : in integer) is
+    procedure operation(mem : in out T_Memoire; varDest : in Integer; valSource1 : in Integer; valSource2 : in Integer; operateur : in integer) is
         resultat : Integer;
     begin
         case operateur is
@@ -36,17 +45,19 @@ package body executeur is
             when -6 =>
                 resultat := valSource1 / valSource2;
             when -7 =>
-                resultat := valSource1 = valSource2;
+                resultat := integer_value(valSource1 = valSource2);
             when -8 =>
-                resultat := valSource1 < valSource2;
+                resultat := integer_value(valSource1 < valSource2);
             when -9 =>
-                resultat := valSource1 > valSource2;
-            when -10 =>
-                resultat := valSource1 or valSource2;
+                resultat := integer_value(valSource1 > valSource2);
+            when -10 =>                
+                resultat := integer_value(valSource1 /= 0 or valSource2 /= 0);
             when -11 =>
-                resultat := valSource1 and valSource2;
+                resultat := integer_value(valSource1 /= 0 and valSource2 /= 0);
+            when others => 
+                null;
         end case;
-        Memoire.Affectation_Variable(varDest, resultat, memoire);
+        Memoire.Affectation_Variable(varDest, resultat, mem);
     end;
 
 end executeur;
