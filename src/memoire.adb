@@ -11,7 +11,8 @@ package body Memoire is
    --end Initialiser;
    
    
-   --Focntion interne au package --
+   -----------------Focntion interne au package ------------
+  
   function Creer_Tab_Variable return T_Tab_Variable is
         Memoire : T_Tab_Variable := (others => (Nom => To_Unbounded_String(""), Valeur => 0, Code => 0));
    begin
@@ -33,7 +34,7 @@ package body Memoire is
   end Creer_Donee_Variable;
 
 
----- Fin Fonction interne au package Memoire---
+----------- Fin Fonction interne au package Memoire ----------------
    
    
 
@@ -46,10 +47,10 @@ package body Memoire is
   
 
    -- Créer une variable avec son code, sa valeur et son nom passé en paramètre
-   procedure Creer_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String; Memoire : in out T_Memoire) is
+   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire) is
    begin
       Memoire.Taille := Memoire.Taille + 1;
-      Memoire.Tab_var(Memoire.Taille) := Creer_Donee_Variable(Code, Valeur, Nom);
+      Memoire.Tab_var(Memoire.Taille) := Creer_Donee_Variable(Memoire.Taille , Valeur, Nom);
    end Creer_Variable;
 	
    

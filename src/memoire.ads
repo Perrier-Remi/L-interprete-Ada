@@ -32,8 +32,7 @@ package Memoire is
 
 	-- Créer une variable avec son code, sa valeur et son nom passé en paramètre
  --procedure Creer_Variable (Code : in integer; Valeur : in integer; Nom : in Unbounded_String;  Variable : in out T_Variable) with
-   procedure Creer_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String; Memoire : in out T_Memoire) with
-     Pre => Code >= 0,
+   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire) with
      Post => (Memoire.Tab_var(Memoire.Taille).Code = Code);
    --        Le dernier élément de Tab_Var a le code, la valeur et le nom spécifiés.
    --
