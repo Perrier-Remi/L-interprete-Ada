@@ -31,10 +31,12 @@ package Memoire is
    Post => Memoire.Taille = 0;
 
 	-- Créer une variable avec son code, sa valeur et son nom passé en paramètre
- --procedure Creer_Variable (Code : in integer; Valeur : in integer; Nom : in Unbounded_String;  Variable : in out T_Variable) with
-   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire);
+   --procedure Creer_Variable (Code : in integer; Valeur : in integer; Nom : in Unbounded_String;  Variable : in out T_Variable) with
+   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire) with
+     Post => ((Memoire.Tab_var(Memoire.Taille).Nom = Nom) and (Memoire.Tab_var(Memoire.Taille).Valeur = Valeur));
+   --        Le dernier �l�ment de Tab_Var a le code, la valeur et le nom sp�cifi�s.
 
-	-- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
+	-- Affecter la variable avec la valeur pass� en param�tre et appelle de la fonction affecter du bon package
    procedure Affectation_Variable (Code : in integer; Valeur : in integer; Memoire : in out T_Memoire);
 
    --Renvoie la variable correspondante au code passé en paramètre
