@@ -106,12 +106,11 @@ package body Memoire is
       for I in 1..Renvoie_Taille(Memoire) loop
          New_Line;
          Put_Line("Variable " & Integer'Image(I) & " :");
-         Put_Line("Code : " & Integer'Image(Tab_Variable_Result(I).Code));
-         Put_Line("Valeur : " & Integer'Image(Tab_Variable_Result(I).Valeur));
          Put_Line("Nom : " & To_String(Tab_Variable_Result(I).Nom));
+         Put_Line("Valeur : " & Integer'Image(Tab_Variable_Result(I).Valeur));
          New_Line;
-         Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
       end loop;
+      Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
    end Afficher_Memoire;
    
 
