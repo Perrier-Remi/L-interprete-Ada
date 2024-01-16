@@ -4,7 +4,7 @@ with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
 
 package body Memoire is
 
-	-- Initialiser la structure de donné composé d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau défini
+	-- Initialiser la structure de donnÃ© composÃ© d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau dÃ©fini
 	--procedure Initialiser (Variable : out T_Variable) is
    --begin
    --   Variable.Taille := 0;
@@ -46,7 +46,7 @@ package body Memoire is
 
   
 
-   -- Créer une variable avec son code, sa valeur et son nom passé en paramètre
+   -- CrÃ©er une variable avec son code, sa valeur et son nom passÃ© en paramÃ¨tre
    procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire) is
    begin
       Memoire.Taille := Memoire.Taille + 1;
@@ -54,19 +54,19 @@ package body Memoire is
    end Creer_Variable;
 	
    
-	-- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
+	-- Affecter la variable avec la valeur passÃ© en paramÃ¨tre et appelle de la fonction affecter du bon package
   procedure Affectation_Variable (Code : in integer; Valeur : in integer; Memoire : in out T_Memoire) is
    begin
       -- Rechercher la variable correspondante dans le tableau
       for I in 1..Memoire.Taille loop
          if Memoire.Tab_var(I).Code = Code then
-            -- Affecter la nouvelle valeur à la variable
+            -- Affecter la nouvelle valeur Ã  la variable
             Memoire.Tab_var(I).Valeur := Valeur;
          end if;
       end loop;
    end Affectation_Variable;
 
-   --Renvoie la variable correspondante au code passé en paramètre
+   --Renvoie la variable correspondante au code passÃ© en paramÃ¨tre
    function Renvoie_Variable (Memoire : in T_Memoire; Code : in integer) return T_Variable is
         Result : T_Variable; 
    begin
@@ -86,7 +86,7 @@ package body Memoire is
       return Memoire.Tab_var;
    end Renvoie_Tab_Variable;
 
-   --Renvoie la valeur maximun du code, le code maximun est stocké dans le dernier enregistrement
+   --Renvoie la valeur maximun du code, le code maximun est stockÃ© dans le dernier enregistrement
    function Renvoie_Code_Max (Memoire : in T_Memoire) return Integer is
    begin
          return Memoire.Taille;
@@ -102,15 +102,12 @@ package body Memoire is
       Tab_Variable_Result : T_Tab_Variable;
    begin
       Tab_Variable_Result := Renvoie_Tab_Variable(Memoire);
-      Put_Line("Affichage du tabeau des Variable :");
+      Put_Line("Affichage du tabeau des Variables :");
       for I in 1..Renvoie_Taille(Memoire) loop
-         New_Line;
-         Put_Line("Variable " & Integer'Image(I) & " :");
-         Put_Line("Nom : " & To_String(Tab_Variable_Result(I).Nom));
-         Put_Line("Valeur : " & Integer'Image(Tab_Variable_Result(I).Valeur));
-         New_Line;
+         -- Put_Line("Variable " & Integer'Image(I) & " :");
+         Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom & " =" & Integer'Image(Tab_Variable_Result(I).Valeur)));
       end loop;
-      Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
+      -- Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
    end Afficher_Memoire;
    
 

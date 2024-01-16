@@ -1,6 +1,7 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
-with Interpreteur; use Interpreteur;
+with Interpreteur; 
+use Interpreteur;
 with Memoire; use Memoire;
 
 procedure Main is
@@ -14,8 +15,8 @@ procedure Main is
     
     -- Programme simple
     -- 1 i <- 2
-    -- 2 a <- i + 1
-    -- 3 b <- i + a
+    -- 2 a <- i
+    -- 3 b <- i - a
     -- 4 if b goto 6
     -- 5 b <- 0
     -- 6 b <- 12
@@ -30,8 +31,8 @@ procedure Main is
         Memoire.Creer_Variable(0, To_Unbounded_String("b"), mem);
 
         prog(1) := (1,  2, -12, 0, 1, 0);
-        prog(2) := (2,  1,  -3, 1, 0, 1);
-        prog(3) := (3,  1,  -3, 2, 0, 0);
+        prog(2) := (2,  1, -12, 0, 0, 0);
+        prog(3) := (3,  1,  -4, 2, 0, 0);
         prog(4) := (-1, 3,  -2, 6, 0, 1);
         prog(5) := (3,  0, -12, 0, 1, 0);
         prog(6) := (3, 12, -12, 0, 1, 0);
@@ -41,6 +42,36 @@ procedure Main is
     cp : Integer;
     prog_fini : Boolean;
     instruction_courrante : Interpreteur.T_Instruction;
+    mode : Character;
+    MODE_NORMAL : Constant Character := '1';
+    MODE_DEBUG : Constant Character := '2';
+
+    function Menu return Character is
+        choix : String(1..128);
+        last : Integer;
+    begin
+        Put_Line("    ----- L'Interpreteur Ada -----");
+        Put_Line("Choisissez un mode de fonctionnement :");
+        Put_Line(" 1 : mode normal");
+        Put_Line(" 2 : mode debug");
+        Put("Votre choix : ");
+        Get_Line(choix, last);
+        while (last /= 1) or else ((choix(1) /= '1') and then (choix(1) /= '2')) loop            
+            Put("Choix invalide, nouveau choix : ");
+            Get_Line(choix, last);
+        end loop;
+        New_Line;
+        return choix(1);
+    end Menu;
+    
+    procedure Afficher_Debug is
+    begin
+        Memoire.Afficher_Memoire(mem);
+        Put_Line("Instruction suivante : " & Integer'Image(cp));
+        Put_Line("Appuyez sur entrée pour continuer le programme");
+        Skip_Line;
+    end;
+    
 begin
 
     -- initialiser les variables
@@ -51,15 +82,24 @@ begin
     -- fin tant que
     -- afficher mémoire
 
+    mode := Menu;
     Memoire.Initialiser(mem);
     Initialiser_Main;
     cp := 1;
     prog_fini := false;
 
-    while not prog_fini loop
+    loop
+        if mode = MODE_DEBUG then
+            Afficher_Debug;
+        end if;
         instruction_courrante := prog(cp);
         prog_fini := Interpreteur.executer_ligne(mem, instruction_courrante, cp);
+        exit when prog_fini;
     end loop;
 
-    Memoire.Afficher_Memoire(mem);
+    
+    if mode = MODE_NORMAL then
+        Memoire.Afficher_Memoire(mem);
+    end if;
+    
 end Main;
