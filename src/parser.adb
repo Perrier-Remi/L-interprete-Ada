@@ -2,7 +2,29 @@ with Ada.Text_IO; use Ada.Text_IO;
 WITH Ada.Strings.Unbounded; USE Ada.Strings.Unbounded;
 
 package body Parser is
-
+    
+    function Split_String(input : in String) return T_Split_String_Tab is
+        index_tab : Integer := 1;
+        index_str : Integer := 1;
+        longueur_str : Integer;
+        splited_string : T_Split_String_Tab;
+        mot_courrant : Unbounded_String;
+    begin
+        longueur_str := input'Last;
+        mot_courrant := To_Unbounded_String("");
+        while index_str <= longueur_str loop
+            if input(index_str) = ' ' then
+                splited_string(index_tab) := mot_courrant;
+                mot_courrant := To_Unbounded_String("");
+                index_tab := index_tab + 1;
+            else
+                Append(mot_courrant, input(index_str));
+            end if;
+            index_str := index_str + 1;
+            Put_Line(To_String(mot_courrant));
+        end loop;
+        return splited_string;
+    end Split_String;
    ------------------Fonction interne au package 
    
    
@@ -95,7 +117,7 @@ package body Parser is
       while not End_Of_File (F) loop
          Ligne :=  To_Unbounded_String(Get_Line (F));
          
-         --Instanciée le tableau correspondance nom variable et code (indice dans le tableau)
+         --InstanciÃ©e le tableau correspondance nom variable et code (indice dans le tableau)
          Put_Line (To_String(Ligne)(1..9));
             if To_String(Ligne)(1..9) = "Programme" then
             while To_String(Ligne) /= "Debut" loop
