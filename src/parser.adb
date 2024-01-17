@@ -21,7 +21,6 @@ package body Parser is
                 Append(mot_courrant, input(index_str));
             end if;
             index_str := index_str + 1;
-            Put_Line(To_String(mot_courrant));
         end loop;
         return splited_string;
     end Split_String;
