@@ -5,9 +5,22 @@ with Memoire; Use Memoire;
 package body Parser is
 
    ------------------Fonction interne au package 
+    type T_Donnee_Label is record
+         Nom : Unbounded_String; --Nom du label
+      Ligne : Integer; --Ligne ou se trouve le label
+      Position : Integer; -- Position du label
+   end record;
+   
+   type T_Tab_Label is array (1..100) of T_Donnee_Label; --Taille du tableau défini arbitrairement
+   
+   type T_Label is record
+         Tab_label : T_Tab_Label; --tableau contenant les labels
+         Taille : Integer; --taille du tableau qui est défini
+   end record;
    
    
-   --function Analyse_Ligne (Ligne : in Unbounded_String) return T_Instruction;
+   
+------------ Instancier le Tableau d'Intruction ----------------
    
    function Creer_Tab_Instruction return T_Tab_Instruction is
         Tab_Instruction : T_Tab_Instruction := (others => (others => 0));
@@ -21,6 +34,7 @@ package body Parser is
       Programme.Tab_Instruction := Creer_Tab_Instruction;
    end Initialiser_Programme;
    
+   ---------------- Initialiser le tableau pour les correspondance de variable -------------------------
    
    function Creer_Tab_Nom_Var return T_Tab_Nom_Variable is
         Tab_Nom_Var: T_Tab_Nom_Variable := (others => To_Unbounded_String(""));
@@ -33,6 +47,26 @@ package body Parser is
       Correspondance_Var.Taille := 0;
       Correspondance_Var.Tab_Nom_Variabe := Creer_Tab_Nom_Var;
    end Initialiser_Correspondance_Var;
+   
+   
+   -------------- Initialiser le type pour les labels ------------------
+   
+   
+   function Creer_Tab_label return T_Tab_Label is
+        Label : T_Tab_Label := (others => (Nom => To_Unbounded_String(""), Ligne => 0, Position => 1));
+   begin
+      return Label;
+   end Creer_Tab_label;
+   
+   
+   procedure Initialiser_Label  (Label : out T_Label) is
+   begin
+      Label.Taille := 0;
+      Label.Tab_label := Creer_Tab_label;
+   end Initialiser_Label;
+   
+   
+   ----- Fin Initialiser le type pour les labels ------------------------
    
 
    function Split_String(input : in String) return T_Split_String is
@@ -114,7 +148,7 @@ package body Parser is
       A : Integer;
    begin
       A :=  Integer'Value(Variable);
-      Put_Line (Integer'Image(A) & " " & Integer'Image(Indice));
+      --Put_Line (Integer'Image(A) & " " & Integer'Image(Indice));
       if Indice = 2 then 
          Tab_Instru(5) := 1;
          Tab_Instru(2) := A;
@@ -139,20 +173,72 @@ package body Parser is
             end if;
          end loop;
       
-      end Check_Variable;
+   end Check_Variable;
       
-            
+   
+   procedure Check_Label (Label_Ligne : in out T_Label; Label_GOTO : in out T_Label; Label : in String; Num_Ligne : Integer; Renvoie_Ligne_Label: out Integer; Renvoie_Position_Label : out Integer ) is 
+      Nombre : Integer;
+      Val : Character;
+   begin
+      Val := Label(Label'Last);
+      --Put_Line (Label);
+      --Put(Val);
+      --New_Line;
+      Nombre := Character'Pos(Val);
+      --Put_Line (Integer'Image(Nombre));
+      for i in 1..Label_GOTO.Taille loop
+         if To_String(Label_GOTO.Tab_label(i).Nom) = Label then
+            Renvoie_Ligne_Label := Label_GOTO.Tab_label(i).Ligne;
+            Renvoie_Position_Label := Label_GOTO.Tab_label(i).Position;
+         end if;
+      end loop;
+      Label_Ligne.Taille := Label_Ligne.Taille +1;
+      Label_Ligne.Tab_label(Label_Ligne.Taille).Nom :=To_Unbounded_String(Label);
+      Label_Ligne.Tab_label(Label_Ligne.Taille).Ligne := Num_Ligne;
+        
+   exception
+      when CONSTRAINT_ERROR =>
+         Put_Line ("Error check_label " & Label);
+   end Check_Label;
+   
+   procedure Goto_Label (Label_Ligne : in out T_Label; Label_GOTO : in out T_Label; Label : in String; Num_Ligne : in Integer; Position : in Integer; Renvoie_Ligne_Label : out Integer) is
+      Nombre : Integer;
+      Valeur : Character; 
+      begin
+      Valeur := Label(Label'Last);
+      
+      Nombre := Character'Pos(Valeur);
+      for i in 1..Label_Ligne.Taille loop
+         if To_String(Label_Ligne.Tab_label(i).Nom) = Label then
+            Renvoie_Ligne_Label := Label_Ligne.Tab_label(i).Ligne;
+         end if;
+      end loop;
+      
+         Label_GOTO.Taille := Label_GOTO.Taille + 1;
+         Label_GOTO.Tab_label(Label_GOTO.Taille).Nom := To_Unbounded_String(Label);
+         Label_GOTO.Tab_label(Label_GOTO.Taille).Ligne := Num_Ligne;
+         Label_GOTO.Tab_label(Label_GOTO.Taille).Position := Position;
+         
+         exception
+      when CONSTRAINT_ERROR =>
+         Put_Line ("Error GOTO_label" & Label);
+   end Goto_Label;
    
    
-   procedure Convertir_Instruction (Tab_Instru : in out T_Instruction; Ligne_Split : in T_Split_String; Correspondance_Variable : in T_Correspondance_Variable) is 
+   
+   procedure Convertir_Instruction (Programme : in out T_Programme; Ligne_Split : in T_Split_String; Correspondance_Variable : in T_Correspondance_Variable; Label_Ligne : in out T_Label; Label_GOTO : in out T_Label; Num_Ligne : in Integer) is 
       --modif le Tab_Ligne_Split
       Indice : Integer := 1;
-      
+      Tab_Instru : T_Instruction := Programme.Tab_Instruction(Programme.Taille);
+      Renvoie_Ligne_Label : Integer := 0;
+      Renvoie_Position_Label : Integer := 0;
    begin
       --Put_Line ("Convertir Instruction" & Integer'Image(Ligne_Split.Taille));
       for i in 1..Ligne_Split.Taille loop
          --New_Line;
          --Put_Line (Integer'Image(i));
+         Put_Line (Integer'Image(Indice));
+         --Put_Line (To_String(Line));
          if To_String(Ligne_Split.Tab_Split_String(i)) = "IF" then
             Tab_Instru(Indice) := -1;
             Indice := Indice +1;
@@ -192,8 +278,34 @@ package body Parser is
             elsif To_String(Ligne_Split.Tab_Split_String(i)) = "NULL" then
             Tab_Instru(Indice) := -13;
             Indice := Indice +1;
+         elsif To_String(Ligne_Split.Tab_Split_String(i))(1) = 'L' and Indice = 1  then
+            Put_Line ((Integer'Image (Programme.Taille)) & " " & (Integer'Image(Renvoie_Position_Label)));
+            Check_Label (Label_Ligne, Label_GOTO, To_String(Ligne_Split.Tab_Split_String(i)), Num_Ligne, Renvoie_Ligne_Label, Renvoie_Position_Label);
+            Put_Line ("Check_Label");
+            Put_Line ((Integer'Image (Programme.Taille)) & " " & (Integer'Image(Renvoie_Position_Label)));
+             New_Line;
+               if Renvoie_Ligne_Label /= 0 and Renvoie_Position_Label /= 0 then 
+               Programme.Tab_Instruction(Renvoie_Ligne_Label)(Renvoie_Position_Label) := Programme.Taille ;
+               Put_Line (Integer'Image(Renvoie_Position_Label));
+               Put_Line ("yes " & Integer'Image(Programme.Tab_Instruction(Renvoie_Ligne_Label)(Renvoie_Position_Label) ));
+                  Renvoie_Ligne_Label := 0;
+                  Renvoie_Position_Label := 0;
+               end if;
+            
             elsif To_String(Ligne_Split.Tab_Split_String(i)) = "FIN" then
-               null; --tableau de (0, 0, 0, 0, 0, 0) déjà défini 
+            null; --tableau de (0, 0, 0, 0, 0, 0) déjà défini 
+         elsif To_String(Ligne_Split.Tab_Split_String(i))(1) = 'L' and then Tab_Instru(Indice-1) = -2 then --
+            Put_Line ((Integer'Image (Programme.Taille)) & " " & (Integer'Image(Renvoie_Position_Label)));
+            Goto_Label (Label_Ligne, Label_GOTO, To_String(Ligne_Split.Tab_Split_String(i)), Programme.Taille, Indice, Renvoie_Ligne_Label);
+            Put_Line ("Label_GOTO");
+            Put_Line ((Integer'Image (Programme.Taille)) & " " & (Integer'Image(Renvoie_Position_Label)));
+            New_Line;
+            if Renvoie_Ligne_Label /= 0 then 
+               Put_Line ("yo ici" & Integer'Image(Renvoie_Ligne_Label));
+               Tab_Instru(Indice) := Renvoie_Ligne_Label;
+               Renvoie_Ligne_Label := 0;
+            end if;
+            null;
             elsif To_String(Ligne_Split.Tab_Split_String(i)) = "<-" then
                null;
             else 
@@ -204,18 +316,18 @@ package body Parser is
       --for i in 1..6 loop 
       --   Put_Line (Integer'Image(Tab_Instru(i)));
       --end loop;
-      
+      Programme.Tab_Instruction(Programme.Taille) := Tab_Instru;
       
    end Convertir_Instruction;
    
    
-    procedure Analyse_Ligne (ligne : in Unbounded_String; Instruction : in out T_Instruction; Correspondance_Variable : in T_Correspondance_Variable) is
+    procedure Analyse_Ligne (ligne : in Unbounded_String; Programme : in out T_Programme; Correspondance_Variable : in T_Correspondance_Variable; Label_Ligne : in out T_Label; Label_GOTO : in out T_Label; Num_Ligne : in Integer) is
       Tab_ligne : T_Split_String;
       
    begin
       Tab_ligne := Split_String (To_String(ligne));
       --Put_Line ("analyse ligne" & Integer'Image(Tab_ligne.Taille));
-      Convertir_Instruction (Instruction, Tab_ligne,Correspondance_Variable);
+      Convertir_Instruction (Programme, Tab_ligne,Correspondance_Variable, Label_Ligne, Label_GOTO, Num_Ligne);
                             
    end Analyse_Ligne;
    
@@ -228,6 +340,8 @@ package body Parser is
       F : File_type ;
       File_Name : constant String := "code_inter_facto.txt";
       Ligne : Unbounded_String;
+      Label_Ligne : T_Label;
+      Label_GOTO : T_Label;
       
       begin
       --Initialiser le tableau qui aura les instructions 
@@ -236,7 +350,10 @@ package body Parser is
       Initialiser_Correspondance_Var (Correspondance_Variable);
       -- Initialiser la memoire ou seront instancier les variables
       Initialiser(Ma_Memoire);
-      --Lecture du fichier
+      --Initialiser les variables pour convertir les labels en ligne 
+      Initialiser_Label(Label_Ligne);  
+      Initialiser_Label(Label_GOTO);  
+                          --Lecture du fichier
       Open (F, In_File, nom_fichier);
       while not End_Of_File (F) loop
          Ligne :=  To_Unbounded_String(Get_Line (F));
@@ -258,13 +375,13 @@ package body Parser is
          
             if To_String(Ligne) = "Debut" then
             while To_String(Ligne) /= "Fin" loop
-               Put_Line ("Instancier Programme");
+               --Put_Line ("Instancier Programme");
                Ligne :=  To_Unbounded_String(Get_Line (F));
-               --Put_Line (To_String(Ligne));
+               Put_Line (To_String(Ligne));
                Programme.Taille := Programme.Taille +1;
-               Put_Line (Integer'Image(Programme.Taille));
-               New_Line;
-               Analyse_Ligne (Ligne, Programme.Tab_Instruction(Programme.Taille), Correspondance_Variable);
+               --Put_Line (Integer'Image(Programme.Taille));
+               --New_Line;
+               Analyse_Ligne (Ligne, Programme, Correspondance_Variable, Label_Ligne, Label_GOTO, Programme.Taille);
                --Ajout de Instruction dans le tableau
                end loop;
             end if;
@@ -275,9 +392,23 @@ package body Parser is
    
    
    
-   procedure Afficher_Programme (Programme : in T_Programme) is 
+   procedure Renvoyer_Resultat_Programme (Programme : in T_Programme) is 
+      F2 : File_type ;
    begin
+      Create(F2, Out_File, "Resultat_Programme.txt");
+      for i in 1..Programme.Taille loop
+         -- Convertir chaque élément du tableau en chaîne de caractères
+         for j in Programme.Tab_Instruction(i)'Range loop
+            Put(F2, Integer'Image(Programme.Tab_Instruction(i)(j)));
+            if j < Programme.Tab_Instruction(i)'Last then
+               Put(F2, ' '); -- Ajouter un espace entre les éléments
+            end if;
+         end loop;
+         New_Line(F2);
+         --Put_Line (F2, Programme.Tab_Instruction(i));
+      end loop;
+      Close (F2);
       null;
-   end Afficher_Programme;
+   end Renvoyer_Resultat_Programme;
    
 end Parser;

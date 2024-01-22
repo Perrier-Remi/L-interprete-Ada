@@ -8,5 +8,7 @@ procedure test_parser is
    Correspondance_Variable_1 : T_Correspondance_Variable;
    Memoire1 : T_Memoire;
 begin
-   Lire_Fichier("code_test.txt", Programme_1, Correspondance_Variable_1, Memoire1);
+   Lire_Fichier("code_inter_facto.txt", Programme_1, Correspondance_Variable_1, Memoire1);
+   --Lire_Fichier("code_test.txt", Programme_1, Correspondance_Variable_1, Memoire1);
+   Renvoyer_Resultat_Programme (Programme_1);
 end test_parser;
