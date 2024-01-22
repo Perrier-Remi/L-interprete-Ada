@@ -1,14 +1,3 @@
-# Object file
-*.o
-
-# Ada Library Information
-*.ali
-
-*.bexch
-*.gpr
-*.cgpr
-*.xml
-*.cswi
-*.stderr
-*.stdout
-b__*
+!src/
+!raffinages/
+!*.txt
