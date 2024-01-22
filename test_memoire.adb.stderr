@@ -1,5 +1,0 @@
-test_memoire.adb:4:09: warning: no entities of "Ada.Integer_Text_IO" are referenced [-gnatwu]
-test_memoire.adb:4:27: warning: use clause for package "Integer_Text_IO" has no effect [-gnatwu]
-test_memoire.adb:15:04: warning: "Nom_Test_1" is not modified, could be declared constant [-gnatwk]
-test_memoire.adb:16:04: warning: constant "Code_Test_2" is not referenced [-gnatwu]
-test_memoire.adb:18:04: warning: "Nom_Test_2" is not modified, could be declared constant [-gnatwk]

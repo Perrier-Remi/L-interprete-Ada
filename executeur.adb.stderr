@@ -1,6 +1,0 @@
-executeur.adb:1:06: warning: redundant with clause in body [-gnatwr]
-executeur.adb:1:15: warning: "Memoire" is already use-visible through previous use_clause at executeur.ads:1 [-gnatwr]
-executeur.adb:1:15: warning: use clause for package "Memoire" has no effect [-gnatwu]
-executeur.adb:14:26: warning: formal parameter "valCp" is not referenced [-gnatwu]
-executeur.ads:7:17: warning: postcondition does not check the outcome of calling "branchement" [-gnatw.t]
-executeur.ads:7:17: warning: postcondition does not mention function result [-gnatw.t]

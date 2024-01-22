@@ -1,2 +1,0 @@
-main.adb:3:20: warning: use clause for package "Interpreteur" has no effect [-gnatwu]
-main.adb:45:05: warning: constant "MODE_NORMAL" is not referenced [-gnatwu]

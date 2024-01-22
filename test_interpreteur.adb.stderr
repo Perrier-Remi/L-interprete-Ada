@@ -1,6 +1,0 @@
-test_interpreteur.adb:44:59: error: invalid operand types for operator "="
-test_interpreteur.adb:44:59: error: left operand has type "T_Element_Access" defined at memoire.ads:20
-test_interpreteur.adb:44:59: error: right operand has type universal integer
-test_interpreteur.adb:51:59: error: invalid operand types for operator "="
-test_interpreteur.adb:51:59: error: left operand has type "T_Element_Access" defined at memoire.ads:20
-test_interpreteur.adb:51:59: error: right operand has type universal integer

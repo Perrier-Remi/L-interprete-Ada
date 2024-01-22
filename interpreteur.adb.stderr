@@ -1,7 +1,0 @@
-interpreteur.adb:2:06: warning: redundant with clause in body [-gnatwr]
-interpreteur.adb:2:15: warning: "Memoire" is already use-visible through previous use_clause at interpreteur.ads:1 [-gnatwr]
-interpreteur.adb:10:62: error: expected type "Standard.Integer"
-interpreteur.adb:10:62: error: found type "T_Element_Access" defined at memoire.ads:20
-executeur.ads:17:55: error: invalid operand types for operator "="
-executeur.ads:17:55: error: left operand has type "T_Element_Access" defined at memoire.ads:20
-executeur.ads:17:55: error: right operand has type "Standard.Integer"
