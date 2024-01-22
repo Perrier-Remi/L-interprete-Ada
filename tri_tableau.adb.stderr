@@ -1,0 +1,6 @@
+tri_tableau.adb:20:06: warning: variable "i" is never read and never assigned [-gnatwv]
+tri_tableau.adb:20:09: warning: variable "j" is never read and never assigned [-gnatwv]
+tri_tableau.adb:22:10: warning: for loop implicitly declares loop variable [-gnatwv]
+tri_tableau.adb:22:10: warning: declaration hides "i" declared at line 20 [-gnatwv]
+tri_tableau.adb:24:13: warning: for loop implicitly declares loop variable [-gnatwv]
+tri_tableau.adb:24:13: warning: declaration hides "j" declared at line 20 [-gnatwv]

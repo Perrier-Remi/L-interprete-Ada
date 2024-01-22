@@ -1,0 +1,129 @@
+V "GNAT Lib v2021"
+M P W=b
+A -gnatA
+A -gnatwa
+A -gnata
+A -g
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_IO
+RV NO_LOCAL_ALLOCATORS
+RV NO_NESTED_FINALIZATION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_ALLOCATORS_AFTER_ELABORATION
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+
+U test_memoire_2%b	test_memoire_2.adb	7abed7ea NE OO SU IL
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W ada.strings%s		a-string.ads		a-string.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W memoire%s		memoire.adb		memoire.ali
+Z system.img_int%s	s-imgint.ads		s-imgint.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+Z system.soft_links%s	s-soflin.adb		s-soflin.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+
+D ada.ads		20231129103822 76789da1 ada%s
+D a-charac.ads		20231129103822 2d3ec45b ada.characters%s
+D a-chlat1.ads		20231129103822 66457d31 ada.characters.latin_1%s
+D a-except.ads		20231129103822 946f3014 ada.exceptions%s
+D a-finali.ads		20231129103822 bf4f806b ada.finalization%s
+D a-inteio.ads		20231129103822 f64b89a4 ada.integer_text_io%s
+D a-ioexce.ads		20231129103822 e4a01f64 ada.io_exceptions%s
+D a-stream.ads		20231129103822 119b8fb3 ada.streams%s
+D a-string.ads		20231129103822 90ac6797 ada.strings%s
+D a-strmap.ads		20231129103822 5a88892a ada.strings.maps%s
+D a-sttebu.ads		20231129103822 18209c64 ada.strings.text_buffers%s
+D a-strunb.ads		20231129103822 03325227 ada.strings.unbounded%s
+D a-stuten.ads		20231129103822 808c40ad ada.strings.utf_encoding%s
+D a-tags.ads		20231129103822 9eaa38c6 ada.tags%s
+D a-textio.ads		20231129103822 aef4d56d ada.text_io%s
+D a-tiinio.ads		20231129103822 390edddb ada.text_io.integer_io%s
+D a-unccon.ads		20231129103822 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		20231129103822 edec285f interfaces%s
+D i-cstrea.ads		20231129103822 e53d8b8e interfaces.c_streams%s
+D memoire.ads		20240122203624 be4f1d92 memoire%s
+D system.ads		20231129103823 a2da961d system%s
+D s-atocou.ads		20231129103822 b45c2d8d system.atomic_counters%s
+D s-crtl.ads		20231129103822 0ebbdb71 system.crtl%s
+D s-exctab.ads		20231129103822 54135002 system.exception_table%s
+D s-ficobl.ads		20231129103822 078245e4 system.file_control_block%s
+D s-finroo.ads		20231129103822 4ff27390 system.finalization_root%s
+D s-imagei.ads		20231129103823 0d3f86a7 system.image_i%s
+D s-imgint.ads		20231129103823 bdb6f5ec system.img_int%s
+D s-memory.ads		20231129103823 597d6634 system.memory%s
+D s-parame.ads		20231129103823 4752c4cb system.parameters%s
+D s-putima.ads		20231129103823 4e095881 system.put_images%s
+D s-secsta.ads		20231129103823 9b3ab94b system.secondary_stack%s
+D s-soflin.ads		20231129103823 a7318a92 system.soft_links%s
+D s-stache.ads		20231129103823 a37c21ec system.stack_checking%s
+D s-stalib.ads		20231129103823 472fbca8 system.standard_library%s
+D s-stalib.adb		20231129103821 977290bf system.standard_library%b
+D s-stoele.ads		20231129103823 2dc34a04 system.storage_elements%s
+D s-stoele.adb		20231129103821 ed88f8fb system.storage_elements%b
+D s-stratt.ads		20231129103823 7bdda3fa system.stream_attributes%s
+D s-traent.ads		20231129103823 26a8d361 system.traceback_entries%s
+D s-unstyp.ads		20231129103823 2b077493 system.unsigned_types%s
+D s-wchcon.ads		20231129103823 1b7d22d2 system.wch_con%s
+D test_memoire_2.adb	20240122203658 69374d32 test_memoire_2%b
+D unchconv.ads		20231129103823 ca2f9e18 unchecked_conversion%s
+G a e
+G c Z b b [test_memoire_2 standard 6 11 none]
+G r s t_memoire [test_memoire_2 standard 6 11 none] [t_memoireIP memoire 32 9 none]
+G r l t_memoire [test_memoire_2 standard 6 11 none] [t_memoireDI memoire 32 9 none]
+G r k t_memoire [test_memoire_2 standard 6 11 none] [t_memoireDF memoire 32 9 none]
+G r c none [test_memoire_2 standard 6 11 none] [initialiser memoire 43 14 none]
+G r c none [test_memoire_2 standard 6 11 none] [creer_variable memoire 48 14 none]
+G r c none [test_memoire_2 standard 6 11 none] [renvoie_variable memoire 56 13 none]
+G r k t_variable [test_memoire_2 standard 6 11 none] [t_variableDF memoire 22 10 none]
+X 1 ada.ads
+16K9*Ada 20e8 43|2r6 2r33 3r6 3r23
+X 9 a-string.ads
+16K13*Strings 35e16 43|2r10 2r37
+X 12 a-strunb.ads
+83K21*Unbounded 765e26 43|2w18 2r45
+104V13*To_Unbounded_String{88R9} 43|12s88 13s96
+X 15 a-textio.ads
+58K13*Text_IO 725e16 43|3w10 3r27
+390U14*Put 43|19s5
+463U14*Put 43|18s5
+X 20 memoire.ads
+5K9*Memoire 72e12 43|1w6 1r19 12r5 13r5 15r14 16r14
+7n29*Entier{7E10} 43|12r59
+7n37*Caractere{7E10} 43|13r59
+9R10*T_Element 18e15 43|12r32 13r32
+9e21*Type_Element{7E10} 43|12m43 13m43
+12i17*Valeur_Entier{integer} 43|12m67 15r54
+14e17*Valeur_Caractere{character} 43|13m70 16r54
+20P10*T_Element_Access(9R10)
+24p9*Valeur{20P10} 43|15r47 16r47
+32R9*T_Memoire 35e14 43|7r11
+43U14*Initialiser 43|11s5
+48U14*Creer_Variable 43|12s13 13s13
+56V13*Renvoie_Variable{22R10} 43|15s22 16s22
+X 21 system.ads
+67M9*Address
+X 29 s-memory.ads
+53V13*Alloc{21|67M9} 103i<c,__gnat_malloc>22
+68U14*Free 104i<c,__gnat_free>22
+76V13*Realloc{21|67M9} 105i<c,__gnat_realloc>22
+X 36 s-stalib.adb
+89U14 Break_Start 90i<c,__gnat_break_start>22
+X 43 test_memoire_2.adb
+6U11*test_memoire_2 6b11 20l5 20t19
+7r5 mem{20|32R9} 11m17 12m121 12r121 13m129 13r129 15r39 16r39
+8i5 var_a{integer} 15m5 18r23
+9e5 var_b{character} 16m5 19r9
+

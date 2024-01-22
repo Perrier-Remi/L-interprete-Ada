@@ -1,0 +1,20 @@
+[GENERATED OBJECT FILE]
+b__test_parser.o
+[PROJECT FILES]
+/home/remi/Documents/prog/L-interprete-Ada/l.gpr
+20240117154541 19ffd9c8ab0d48fbf0b08cb2bba88036
+[BOUND OBJECT FILES]
+/home/remi/Documents/prog/L-interprete-Ada/parser.o
+/home/remi/Documents/prog/L-interprete-Ada/test_parser.o
+[GENERATED SOURCE FILES]
+b__test_parser.ads
+b__test_parser.adb
+b__test_parser.ali
+[RESULTING OPTIONS]
+-L/home/remi/Documents/prog/L-interprete-Ada/
+-L/home/remi/Documents/prog/L-interprete-Ada/
+-L/opt/gnat/lib/gcc/x86_64-pc-linux-gnu/10.3.1/adalib/
+-static
+-static-libgcc
+/opt/gnat/lib/gcc/x86_64-pc-linux-gnu/10.3.1/adalib/libgnat.a
+-ldl

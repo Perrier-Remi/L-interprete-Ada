@@ -1,13 +1,7 @@
 with Memoire; use Memoire;
 
 package Interpreteur is
-
-    NB_INSTRUCTIONS : Constant Integer := 6;      -- nombre maximum d'instructions par ligne
-
-    type T_Instruction is array (1..NB_INSTRUCTIONS) of Integer;
-
-    -- function permettant de retourner la valeur d'une variable ou d'une constante
-    function retourner_valeur(mem : in T_Memoire; variable : in Integer; const : in Integer) return Integer;
+    function parametrer_branchement(mem : in T_Memoire; instrcution : in T_Instruction; cp : in Interger) return Integer;
 
     function parametrer_condition(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer;
 

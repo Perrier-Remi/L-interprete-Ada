@@ -3,112 +3,124 @@ with Ada.Text_IO;          use Ada.Text_IO;
 with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
 
 package body Memoire is
-
-	-- Initialiser la structure de donné composé d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau défini
-	--procedure Initialiser (Variable : out T_Variable) is
-   --begin
-   --   Variable.Taille := 0;
-   --end Initialiser;
-   
-   
-   -----------------Focntion interne au package ------------
-  
-  function Creer_Tab_Variable return T_Tab_Variable is
-        Memoire : T_Tab_Variable := (others => (Nom => To_Unbounded_String(""), Valeur => 0, Code => 0));
-   begin
-      return Memoire;
-   end Creer_Tab_Variable;
-   
-   
-   --function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Variable with
---   Pre => Code >= 0,
---   Post => Creer_Donee_Variable'Result.Code = Code;
-
-  function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Variable is
-   Variable : T_Variable;
-  begin
-   Variable.Code := Code;
-   Variable.Valeur := Valeur;
-   Variable.Nom := Nom;
-   return Variable;
-  end Creer_Donee_Variable;
-
-
------------ Fin Fonction interne au package Memoire ----------------
-   
-   
-
-   procedure Initialiser (Memoire : out T_Memoire) is
-   begin
-      Memoire.Taille := 0;
-      Memoire.Tab_var := Creer_Tab_Variable;
-   end Initialiser;
-
-  
-
-   -- Créer une variable avec son code, sa valeur et son nom passé en paramètre
-   procedure Creer_Variable (Valeur : in Integer; Nom : in Unbounded_String; Memoire : in out T_Memoire) is
-   begin
-      Memoire.Taille := Memoire.Taille + 1;
-      Memoire.Tab_var(Memoire.Taille) := Creer_Donee_Variable(Memoire.Taille , Valeur, Nom);
-   end Creer_Variable;
-	
-   
-	-- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
-  procedure Affectation_Variable (Code : in integer; Valeur : in integer; Memoire : in out T_Memoire) is
-   begin
-      -- Rechercher la variable correspondante dans le tableau
-      for I in 1..Memoire.Taille loop
-         if Memoire.Tab_var(I).Code = Code then
-            -- Affecter la nouvelle valeur à la variable
-            Memoire.Tab_var(I).Valeur := Valeur;
-         end if;
-      end loop;
-   end Affectation_Variable;
-
-   --Renvoie la variable correspondante au code passé en paramètre
-   function Renvoie_Variable (Memoire : in T_Memoire; Code : in integer) return T_Variable is
+    
+    -- Initialiser la structure de donné composé d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau défini
+    --procedure Initialiser (Variable : out T_Variable) is
+    --begin
+    --   Variable.Taille := 0;
+    --end Initialiser;
+    
+    -----------------Focntion interne au package ------------
+    
+    function Creer_Tab_Variable return T_Tab_Variable is
+        --Memoire : T_Tab_Variable := (others => (Nom => To_Unbounded_String(""), Valeur => T_Element, Code => 0));
+        Memoire : T_Tab_Variable;
+    begin
+        return Memoire;
+    end Creer_Tab_Variable;
+    
+    
+    --function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Variable with
+    --   Pre => Code >= 0,
+    --   Post => Creer_Donee_Variable'Result.Code = Code;
+    
+    function Creer_Donee_Variable (Code : in Integer; Valeur : in T_Element_Access; Nom : in Unbounded_String; ConstMachine : in Boolean) return T_Variable is
+        Variable : T_Variable;
+    begin
+        Variable.Code := Code;
+        Variable.Valeur := Valeur;
+        Variable.Nom := Nom;
+        Variable.ConstMachine := ConstMachine;
+        return Variable;
+    end Creer_Donee_Variable;
+    
+    
+    ----------- Fin Fonction interne au package Memoire ----------------
+    
+    
+    
+    procedure Initialiser (Memoire : out T_Memoire) is
+    begin
+        Memoire.Taille := 0;
+        Memoire.Tab_var := Creer_Tab_Variable;
+    end Initialiser;
+    
+    
+    
+    -- Créer une variable avec son code, sa valeur et son nom passé en paramètre
+    procedure Creer_Variable (Valeur : in T_Element_Access; Nom : in Unbounded_String; ConstMachine : in Boolean; Memoire : in out T_Memoire) is
+    begin
+        Memoire.Taille := Memoire.Taille + 1;
+        Memoire.Tab_var(Memoire.Taille) := Creer_Donee_Variable(Memoire.Taille , Valeur, Nom, ConstMachine);
+    end Creer_Variable;
+    
+    
+    -- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
+    procedure Affectation_Variable (Code : in integer; Valeur : in T_Element_Access; Memoire : in out T_Memoire) is
+    begin
+        -- Rechercher la variable correspondante dans le tableau
+        --    for I in 1..Memoire.Taille loop
+        --        if Memoire.Tab_var(I).Code = Code then
+        --            -- Affecter la nouvelle valeur à la variable
+        --            Memoire.Tab_var(I).Valeur := Valeur;
+        --        end if;
+        --    end loop;
+        Memoire.Tab_var(Code).Valeur := Valeur;
+    end Affectation_Variable;
+    
+    --Renvoie la variable correspondante au code passé en paramètre
+    function Renvoie_Variable (Memoire : in T_Memoire; Code : in integer) return T_Variable is
         Result : T_Variable; 
-   begin
-      -- Rechercher la variable correspondante dans le tableau
-      for I in 1.. Memoire.Taille loop
-         if Memoire.Tab_var(I).Code = Code then
-            Result := Memoire.Tab_var(I);
-            exit;
-         end if;
-      end loop;
-      return Result;
-   end Renvoie_Variable;
-
-   --Renvoie tous le tableau de variable
-   function Renvoie_Tab_Variable (Memoire : in T_Memoire) return T_Tab_Variable is
-   begin
-      return Memoire.Tab_var;
-   end Renvoie_Tab_Variable;
-
-   --Renvoie la valeur maximun du code, le code maximun est stocké dans le dernier enregistrement
-   function Renvoie_Code_Max (Memoire : in T_Memoire) return Integer is
-   begin
-         return Memoire.Taille;
-   end Renvoie_Code_Max;
-   
-   function Renvoie_Taille (Memoire : in T_Memoire) return Integer is
-   begin
-         return Memoire.Taille;
-   end Renvoie_Taille;
-   
-   --Afficher la memoire 
-   procedure Afficher_Memoire (Memoire : in T_Memoire) is 
-      Tab_Variable_Result : T_Tab_Variable;
-   begin
-      Tab_Variable_Result := Renvoie_Tab_Variable(Memoire);
-      Put_Line("Affichage du tabeau des Variables :");
-      for I in 1..Renvoie_Taille(Memoire) loop
-         -- Put_Line("Variable " & Integer'Image(I) & " :");
-         Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom & " =" & Integer'Image(Tab_Variable_Result(I).Valeur)));
-      end loop;
-      -- Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
-   end Afficher_Memoire;
-   
-
+    begin
+        -- Rechercher la variable correspondante dans le tableau
+        --      for I in 1.. Memoire.Taille loop
+        --         if Memoire.Tab_var(I).Code = Code then
+        --           Result := Memoire.Tab_var(I);
+        --            exit;
+        --         end if;
+        --      end loop;
+        --      return Result;
+        return Memoire.Tab_var(Code);
+    end Renvoie_Variable;
+    
+    --Renvoie tous le tableau de variable
+    function Renvoie_Tab_Variable (Memoire : in T_Memoire) return T_Tab_Variable is
+    begin
+        return Memoire.Tab_var;
+    end Renvoie_Tab_Variable;
+    
+    --Renvoie la valeur maximun du code, le code maximun est stocké dans le dernier enregistrement
+    function Renvoie_Code_Max (Memoire : in T_Memoire) return Integer is
+    begin
+        return Memoire.Taille;
+    end Renvoie_Code_Max;
+    
+    function Renvoie_Taille (Memoire : in T_Memoire) return Integer is
+    begin
+        return Memoire.Taille;
+    end Renvoie_Taille;
+    
+    --Afficher la memoire 
+    procedure Afficher_Memoire (Memoire : in T_Memoire) is 
+        Tab_Variable_Result : T_Tab_Variable;
+        variable : T_Element_Access;
+        valeur : String (1..64);
+    begin
+        Tab_Variable_Result := Renvoie_Tab_Variable(Memoire);
+        Put_Line("Affichage du tabeau des Variables :");
+        for I in 1..Renvoie_Taille(Memoire) loop
+            variable := Tab_Variable_Result(I).Valeur;
+            case variable.Type_Element is
+                when Entier =>
+                    valeur := Integer'Image(variable.Valeur_Entier);
+                when Caractere =>
+                    valeur := Character'Image(variable.Valeur_Caractere);
+                when Booleen =>
+                    valeur := Boolean'Image(variable.Valeur_Booleen);
+            end case;
+            Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom)  & " =" & valeur);
+        end loop;
+        -- Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
+    end Afficher_Memoire;
+    
 end Memoire;

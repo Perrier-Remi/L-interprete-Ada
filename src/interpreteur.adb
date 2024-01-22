@@ -1,23 +1,13 @@
+with Text_IO; use Text_IO;
 with Executeur; use Executeur;
 with Memoire; use Memoire;
 
 package body Interpreteur is
-
-    function retourner_valeur(mem : in T_Memoire; variable : in Integer; const : in Integer) return Integer is
-        valeur : Integer;
-    begin 
-        if const = 0 then
-            valeur := Memoire.Renvoie_Variable(mem, variable).Valeur;   
-        else
-            valeur := variable;
-        end if;
-        return valeur;
-    end;    
     
     function parametrer_branchement(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         valeur : Integer;
     begin
-        valeur := retourner_valeur(mem, instruction(2), instruction(5));
+        valeur := instruction(2);
         return Executeur.branchement(cp, valeur);
     end;   
 
@@ -25,30 +15,40 @@ package body Interpreteur is
         test : Integer;
         valeur : Integer;
     begin
-        test := retourner_valeur(mem, instruction(2), instruction(5));
-        valeur := retourner_valeur(mem, instruction(4), instruction(6));        
+        test := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur.Valeur_Entier;
+        valeur := instruction(4);
         return Executeur.condition(test, cp, valeur);
     end;
 
     function parametrer_affectation(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         varDest : Integer;
-        valSource : Integer;
+        valSource : T_Element_Access;
+        erreur_code_intermediaire : exception;
     begin
         varDest := instruction(1);
-        valSource := retourner_valeur(mem, instruction(2), instruction(5));
-        Executeur.affectation(mem, varDest, valSource);
+        valSource := Memoire.Renvoie_Variable(mem, variable).Valeur;
+        
+        -- si le type de destination est différent du type source → lever une exception
+        if Memoire.Renvoie_Variable(mem, varDest).Valeur.Type_Element /= valSource.Type_Element then
+            raise erreur_code_intermediaire;
+        else
+            Executeur.affectation(mem, varDest, valSource);
+        end if;
+        
         return cp + 1;
     end;
 
     function parametrer_operation(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         varDest : Integer;
-        valSource1 : Integer;
-        valSource2 : Integer;
+        valSource1 : T_Element_Access;
+        valSource2 : T_Element_Access;
+        operateur : Integer;
     begin
         varDest := instruction(1);
-        valSource1 := retourner_valeur(mem, instruction(2), instruction(5));
-        valSource2 := retourner_valeur(mem, instruction(4), instruction(6));
-        Executeur.operation(mem, varDest, valSource1, valSource2, instruction(3));
+        valSource1 := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur;
+        valSource2 := Memoire.Renvoie_Variable(mem, instruction(4)).Valeur;
+        operateur := instruction(3);
+        Executeur.operation(mem, varDest, valSource1, valSource2, operateur);
         return cp + 1;
     end;
 
@@ -58,6 +58,7 @@ package body Interpreteur is
     end;
     
     function executer_ligne(mem : in out T_Memoire; instruction : in T_Instruction; cp : in out Integer) return Boolean is
+        erreur_code_intermediaire : exception;
     begin
         -- branchement
         if instruction(1) = -2 then
@@ -74,6 +75,11 @@ package body Interpreteur is
         end if;
         
         return programme_fini(instruction);
+        
+    exception 
+        when erreur_code_intermediaire =>
+            Put_Line("Erreur dans le code intermediaire ligne " & Integer'Image(cp));
+            return True;
     end;
     
 end Interpreteur;

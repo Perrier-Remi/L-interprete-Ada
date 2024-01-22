@@ -1,7 +1,6 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
-with Interpreteur; 
-use Interpreteur;
+with Interpreteur; use Interpreteur;
 with Memoire; use Memoire;
 
 procedure Main is
@@ -26,10 +25,10 @@ procedure Main is
     -- i, a, b : Integer
     procedure Initialiser_Main is
     begin
-        Memoire.Creer_Variable(0, To_Unbounded_String("i"), mem);
-        Memoire.Creer_Variable(0, To_Unbounded_String("a"), mem);
-        Memoire.Creer_Variable(0, To_Unbounded_String("b"), mem);
-
+        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("i"), False, mem);
+        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
+        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("b"), False, mem);        
+        
         prog(1) := (1,  2, -12, 0, 1, 0);
         prog(2) := (2,  1, -12, 0, 0, 0);
         prog(3) := (3,  1,  -4, 2, 0, 0);
@@ -96,10 +95,5 @@ begin
         prog_fini := Interpreteur.executer_ligne(mem, instruction_courrante, cp);
         exit when prog_fini;
     end loop;
-
-    
-    if mode = MODE_NORMAL then
-        Memoire.Afficher_Memoire(mem);
-    end if;
     
 end Main;

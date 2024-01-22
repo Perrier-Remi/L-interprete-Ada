@@ -1,0 +1,19 @@
+[GENERATED OBJECT FILE]
+b__tri_tableau.o
+[PROJECT FILES]
+/home/remi/Documents/prog/L-interprete-Ada/l.gpr
+20240117163138 e028938b318e11cc5542d526da83d8b6
+[BOUND OBJECT FILES]
+/home/remi/Documents/prog/L-interprete-Ada/tri_tableau.o
+[GENERATED SOURCE FILES]
+b__tri_tableau.ads
+b__tri_tableau.adb
+b__tri_tableau.ali
+[RESULTING OPTIONS]
+-L/home/remi/Documents/prog/L-interprete-Ada/
+-L/home/remi/Documents/prog/L-interprete-Ada/
+-L/opt/gnat/lib/gcc/x86_64-pc-linux-gnu/10.3.1/adalib/
+-static
+-static-libgcc
+/opt/gnat/lib/gcc/x86_64-pc-linux-gnu/10.3.1/adalib/libgnat.a
+-ldl
