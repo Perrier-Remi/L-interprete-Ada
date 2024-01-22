@@ -37,7 +37,7 @@ package Parser is
    procedure Lire_Fichier (nom_fichier : in String; Programme: out T_Programme;Correspondance_Variable : out T_Correspondance_Variable; Ma_Memoire : out T_Memoire);
    
    
-   procedure Afficher_Programme (Programme : in T_Programme);
+   procedure Renvoyer_Resultat_Programme (Programme : in T_Programme);
 
 
 end Parser;
