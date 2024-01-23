@@ -104,21 +104,23 @@ package body Memoire is
     procedure Afficher_Memoire (Memoire : in T_Memoire) is 
         Tab_Variable_Result : T_Tab_Variable;
         variable : T_Element_Access;
-        valeur : String (1..64);
+        valeur : Unbounded_String;
     begin
         Tab_Variable_Result := Renvoie_Tab_Variable(Memoire);
         Put_Line("Affichage du tabeau des Variables :");
         for I in 1..Renvoie_Taille(Memoire) loop
             variable := Tab_Variable_Result(I).Valeur;
-            case variable.Type_Element is
+            if (not Tab_Variable_Result(I).ConstMachine) then
+                case variable.Type_Element is
                 when Entier =>
-                    valeur := Integer'Image(variable.Valeur_Entier);
+                    valeur := To_Unbounded_String(Integer'Image(variable.Valeur_Entier));
                 when Caractere =>
-                    valeur := Character'Image(variable.Valeur_Caractere);
+                    valeur := To_Unbounded_String(Character'Image(variable.Valeur_Caractere));
                 when Booleen =>
-                    valeur := Boolean'Image(variable.Valeur_Booleen);
-            end case;
-            Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom)  & " =" & valeur);
+                    valeur := To_Unbounded_String(Boolean'Image(variable.Valeur_Booleen));
+                end case;
+                Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom)  & " =" & To_String(valeur));
+            end if;
         end loop;
         -- Put_Line("Le nombre de variable est"& Integer'Image(Renvoie_Taille(Memoire)));
     end Afficher_Memoire;

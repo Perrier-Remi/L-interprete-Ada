@@ -1,7 +1,8 @@
 with Memoire; use Memoire;
+with Parser; use Parser;
 
 package Interpreteur is
-    function parametrer_branchement(mem : in T_Memoire; instrcution : in T_Instruction; cp : in Interger) return Integer;
+    function parametrer_branchement(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer;
 
     function parametrer_condition(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer;
 

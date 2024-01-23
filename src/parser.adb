@@ -11,11 +11,11 @@ package body Parser is
       Position : Integer; -- Position du label
    end record;
    
-   type T_Tab_Label is array (1..100) of T_Donnee_Label; --Taille du tableau dÈfini arbitrairement
+   type T_Tab_Label is array (1..100) of T_Donnee_Label; --Taille du tableau d√©fini arbitrairement
    
    type T_Label is record
          Tab_label : T_Tab_Label; --tableau contenant les labels
-         Taille : Integer; --taille du tableau qui est dÈfini
+         Taille : Integer; --taille du tableau qui est d√©fini
    end record;
    
    
@@ -114,13 +114,13 @@ package body Parser is
             Correspondance_Var.Taille :=  Correspondance_Var.Taille + (i-1); --augmenter la taille pour les variables instanciers
             if To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Entier" or To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Booleen" then
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Creer_Variable(0, Correspondance_Var.Tab_Nom_Variabe(y), Ma_Memoire);
+                  Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), Correspondance_Var.Tab_Nom_Variabe(y), True, Ma_Memoire);
                end loop;
             end if ;
          elsif To_String(Tab_ligne.Tab_Split_String(i)) = "<-" then
             if To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Entier" or To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Booleen" then
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Affectation_Variable(y, Indice + 1, Ma_Memoire);
+                  Affectation_Variable(y, new T_Element'(Type_Element => Entier, Valeur_Entier => Indice  + 1), Ma_Memoire);
                end loop;
             end if;
          else
@@ -293,7 +293,7 @@ package body Parser is
                end if;
             
             elsif To_String(Ligne_Split.Tab_Split_String(i)) = "FIN" then
-            null; --tableau de (0, 0, 0, 0, 0, 0) dÈj‡ dÈfini 
+            null; --tableau de (0, 0, 0, 0, 0, 0) d√©j√† d√©fini 
          elsif To_String(Ligne_Split.Tab_Split_String(i))(1) = 'L' and then Tab_Instru(Indice-1) = -2 then --
             Put_Line ((Integer'Image (Programme.Taille)) & " " & (Integer'Image(Renvoie_Position_Label)));
             Goto_Label (Label_Ligne, Label_GOTO, To_String(Ligne_Split.Tab_Split_String(i)), Programme.Taille, Indice, Renvoie_Ligne_Label);
@@ -358,7 +358,7 @@ package body Parser is
       while not End_Of_File (F) loop
          Ligne :=  To_Unbounded_String(Get_Line (F));
          
-         --InstanciÈe le tableau correspondance nom variable et code (indice dans le tableau)
+         --Instanci√©e le tableau correspondance nom variable et code (indice dans le tableau)
          --Put_Line (To_String(Ligne)(1..9));
          if To_String(Ligne)(1..9) = "Programme" then
             --Put_Line (To_String(Ligne));
@@ -397,11 +397,11 @@ package body Parser is
    begin
       Create(F2, Out_File, "Resultat_Programme.txt");
       for i in 1..Programme.Taille loop
-         -- Convertir chaque ÈlÈment du tableau en chaÓne de caractËres
+         -- Convertir chaque √©l√©ment du tableau en cha√Æne de caract√®res
          for j in Programme.Tab_Instruction(i)'Range loop
             Put(F2, Integer'Image(Programme.Tab_Instruction(i)(j)));
             if j < Programme.Tab_Instruction(i)'Last then
-               Put(F2, ' '); -- Ajouter un espace entre les ÈlÈments
+               Put(F2, ' '); -- Ajouter un espace entre les √©l√©ments
             end if;
          end loop;
          New_Line(F2);

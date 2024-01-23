@@ -2,13 +2,11 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
 with Interpreteur; use Interpreteur;
 with Memoire; use Memoire;
+with Parser; use Parser;
 
 procedure Main is
     
-    MAX_LIGNES_PROGRAMME : Constant Integer := 1000;
-    type T_Programme is array (1..MAX_LIGNES_PROGRAMME) of Interpreteur.T_Instruction;
-
-    prog : T_Programme;
+    prog : Parser.T_Programme;
     mem : T_Memoire;
 
     
@@ -28,19 +26,22 @@ procedure Main is
         Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("i"), False, mem);
         Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
         Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("b"), False, mem);        
+        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 2), To_Unbounded_String(""), True, mem);
+        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String(""), True, mem);
+        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 12), To_Unbounded_String(""), True, mem);
         
-        prog(1) := (1,  2, -12, 0, 1, 0);
-        prog(2) := (2,  1, -12, 0, 0, 0);
-        prog(3) := (3,  1,  -4, 2, 0, 0);
-        prog(4) := (-1, 3,  -2, 6, 0, 1);
-        prog(5) := (3,  0, -12, 0, 1, 0);
-        prog(6) := (3, 12, -12, 0, 1, 0);
-        prog(7) := (0,  0,   0, 0, 0, 0);
+        prog.Tab_Instruction(1) := (1,  4, -12, 0, 0, 0);
+        prog.Tab_Instruction(2) := (2,  1, -12, 0, 0, 0);
+        prog.Tab_Instruction(3) := (3,  1,  -4, 2, 0, 0);
+        prog.Tab_Instruction(4) := (-1, 3,  -2, 6, 0, 1);
+        prog.Tab_Instruction(5) := (3,  5, -12, 0, 0, 0);
+        prog.Tab_Instruction(6) := (3,  6, -12, 0, 0, 0);
+        prog.Tab_Instruction(7) := (0,  0,   0, 0, 0, 0);
     end Initialiser_Main;
     
     cp : Integer;
     prog_fini : Boolean;
-    instruction_courrante : Interpreteur.T_Instruction;
+    instruction_courrante : Parser.T_Instruction;
     mode : Character;
     MODE_NORMAL : Constant Character := '1';
     MODE_DEBUG : Constant Character := '2';
@@ -91,7 +92,7 @@ begin
         if mode = MODE_DEBUG then
             Afficher_Debug;
         end if;
-        instruction_courrante := prog(cp);
+        instruction_courrante := prog.Tab_Instruction(cp);
         prog_fini := Interpreteur.executer_ligne(mem, instruction_courrante, cp);
         exit when prog_fini;
     end loop;

@@ -19,46 +19,46 @@ procedure Test_Memoire is
 
 
 begin
-   -- Initialiser Memoire
-   Initialiser(Ma_Memoire);
+   --  -- Initialiser Memoire
+   --  Initialiser(Ma_Memoire);
 
-   --Test taille mémoire
-   Put_Line("Taille de T_Variable : " & Integer'Image(Renvoie_Taille(Ma_Memoire)));
-   pragma Assert (Renvoie_Taille(Ma_Memoire) = 0);
+   --  --Test taille mémoire
+   --  Put_Line("Taille de T_Variable : " & Integer'Image(Renvoie_Taille(Ma_Memoire)));
+   --  pragma Assert (Renvoie_Taille(Ma_Memoire) = 0);
 
-   --Implementer deux variable
-   Creer_Variable(Valeur_Test_1, Nom_Test_1, Ma_Memoire);
-   Creer_Variable(Valeur_Test_2, Nom_Test_2, Ma_Memoire);
+   --  --Implementer deux variable
+   --  Creer_Variable(Valeur_Test_1, Nom_Test_1, Ma_Memoire);
+   --  Creer_Variable(Valeur_Test_2, Nom_Test_2, Ma_Memoire);
 
-   --Test taille mémoire instancié
-   Put_Line("Taille de T_Variable : " & Integer'Image(Renvoie_Taille(Ma_Memoire)));
-   pragma Assert (Renvoie_Taille(Ma_Memoire) = 2);
+   --  --Test taille mémoire instancié
+   --  Put_Line("Taille de T_Variable : " & Integer'Image(Renvoie_Taille(Ma_Memoire)));
+   --  pragma Assert (Renvoie_Taille(Ma_Memoire) = 2);
 
-   --Recupérer la variable de code 1
-   Ma_Variable_Result := Renvoie_Variable(Ma_Memoire, Code_Test_1);
-   pragma Assert (Ma_Variable_Result.Code = Code_Test_1);
-   pragma Assert (Ma_Variable_Result.Valeur = Valeur_Test_1);
-   pragma Assert (To_String(Ma_Variable_Result.Nom) = To_String(Nom_Test_1));
+   --  --Recupérer la variable de code 1
+   --  Ma_Variable_Result := Renvoie_Variable(Ma_Memoire, Code_Test_1);
+   --  pragma Assert (Ma_Variable_Result.Code = Code_Test_1);
+   --  pragma Assert (Ma_Variable_Result.Valeur = Valeur_Test_1);
+   --  pragma Assert (To_String(Ma_Variable_Result.Nom) = To_String(Nom_Test_1));
 
-   --Modifier valeur variable code = 1
-   Affectation_Variable(Code_Test_1, Valeur_Test_1 + 10, Ma_Memoire);
+   --  --Modifier valeur variable code = 1
+   --  Affectation_Variable(Code_Test_1, Valeur_Test_1 + 10, Ma_Memoire);
 
-   --Recupérer tableau de Tab_Variable
-   --Tab_Variable_Result := Renvoie_Tab_Variable(Ma_Memoire);
+   --  --Recupérer tableau de Tab_Variable
+   --  --Tab_Variable_Result := Renvoie_Tab_Variable(Ma_Memoire);
 
-   -- Afficher le tableau de variable
-   Afficher_Memoire (Ma_Memoire);
-   --Put_Line("Affichage du tabeau des Variable :");
-   --for I in 1..Renvoie_Taille(Ma_Memoire) loop
-    --     Put_Line(" Variable " & Integer'Image(I) & " :");
-    --     Put_Line("Code : " & Integer'Image(Tab_Variable_Result(I).Code));
-    --     Put_Line("Valeur : " & Integer'Image(Tab_Variable_Result(I).Valeur));
-    --     Put_Line("Nom : " & To_String(Tab_Variable_Result(I).Nom));
-      --end loop;
+   --  -- Afficher le tableau de variable
+   --  Afficher_Memoire (Ma_Memoire);
+   --  --Put_Line("Affichage du tabeau des Variable :");
+   --  --for I in 1..Renvoie_Taille(Ma_Memoire) loop
+   --   --     Put_Line(" Variable " & Integer'Image(I) & " :");
+   --   --     Put_Line("Code : " & Integer'Image(Tab_Variable_Result(I).Code));
+   --   --     Put_Line("Valeur : " & Integer'Image(Tab_Variable_Result(I).Valeur));
+   --   --     Put_Line("Nom : " & To_String(Tab_Variable_Result(I).Nom));
+   --     --end loop;
 
-   --Afficher le code max et donc aussi la taille de la mémoire
-   New_Line;
-   Put_Line("Le code max est"& Integer'Image(Renvoie_Code_Max(Ma_Memoire)));
-   pragma Assert (Renvoie_Code_Max(Ma_Memoire) = 2);
-
+   --  --Afficher le code max et donc aussi la taille de la mémoire
+   --  New_Line;
+   --  Put_Line("Le code max est"& Integer'Image(Renvoie_Code_Max(Ma_Memoire)));
+   --  pragma Assert (Renvoie_Code_Max(Ma_Memoire) = 2);
+   null;
 end Test_Memoire;

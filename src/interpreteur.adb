@@ -1,6 +1,7 @@
 with Text_IO; use Text_IO;
 with Executeur; use Executeur;
 with Memoire; use Memoire;
+with Parser; use Parser;
 
 package body Interpreteur is
     
@@ -26,7 +27,7 @@ package body Interpreteur is
         erreur_code_intermediaire : exception;
     begin
         varDest := instruction(1);
-        valSource := Memoire.Renvoie_Variable(mem, variable).Valeur;
+        valSource := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur;
         
         -- si le type de destination est différent du type source → lever une exception
         if Memoire.Renvoie_Variable(mem, varDest).Valeur.Type_Element /= valSource.Type_Element then
@@ -43,12 +44,18 @@ package body Interpreteur is
         valSource1 : T_Element_Access;
         valSource2 : T_Element_Access;
         operateur : Integer;
+        erreur_code_intermediaire : exception;
     begin
         varDest := instruction(1);
         valSource1 := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur;
         valSource2 := Memoire.Renvoie_Variable(mem, instruction(4)).Valeur;
         operateur := instruction(3);
-        Executeur.operation(mem, varDest, valSource1, valSource2, operateur);
+        
+        if valSource1.Type_Element /= valSource2.Type_Element then
+            raise erreur_code_intermediaire;
+        else
+            Executeur.operation(mem, varDest, valSource1, valSource2, operateur);
+        end if;
         return cp + 1;
     end;
 

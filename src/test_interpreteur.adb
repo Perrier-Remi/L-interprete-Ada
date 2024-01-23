@@ -3,6 +3,7 @@ with Interpreteur; use Interpreteur;
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+with Parser; use Parser;
 
 
 procedure test_interpreteur is
@@ -18,7 +19,7 @@ procedure test_interpreteur is
    Nom_Test_2 : Unbounded_String := To_Unbounded_String("var2");
    
     cp : Integer;
-    instruction : Interpreteur.T_Instruction;
+    instruction : T_Instruction;
     
 begin
     
@@ -41,13 +42,13 @@ begin
     instruction := (1, 3, -12, 0, 1, 0); -- var1 <- 3
     pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
     pragma Assert(cp = 5);
-    pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur = 3);
+    pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur.Valeur_Entier = 3);
 
     
     --test instruction operation
     instruction := (1, 3, -3, 4, 1, 1); -- var1 <- 3 + 4
     pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
     pragma Assert(cp = 5);
-    pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur = 7);
+    pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur.Valeur_Entier = 7);
    
 end test_interpreteur;
