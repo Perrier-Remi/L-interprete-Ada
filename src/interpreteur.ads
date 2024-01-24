@@ -10,6 +10,8 @@ package Interpreteur is
 
     function parametrer_operation(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer;
 
+    function parametrer_lire_ecrire(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer;
+
     function programme_fini(instruction : in T_Instruction) return Boolean;
 
     -- fonction permettant d'executer une ligne du programme

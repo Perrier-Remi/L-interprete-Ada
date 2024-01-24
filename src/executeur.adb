@@ -1,4 +1,5 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Text_IO; use Text_IO;
 with Memoire; use Memoire;
 
 package body executeur is
@@ -93,5 +94,30 @@ package body executeur is
             Memoire.Affectation_Variable(varDest, valDest, mem);
         end if;
     end;
-
+    
+    procedure lire_ecrire(mem : in out T_Memoire; varDest : in Integer; operateur : in Integer) is
+        valDest : T_Element_Access;
+        typeVarDest : T_Type_Element;
+        input : Character;
+    begin
+        valDest := Memoire.Renvoie_Variable(mem, varDest).Valeur;
+        typeVarDest := valDest.Type_Element;
+        
+        -- Ecrire ()
+        if (operateur = -14) then
+            if (typeVarDest = Caractere) then
+                Put_Line(Character'Image(valDest.Valeur_Caractere));
+            elsif (typeVarDest = Entier) then
+                Put_Line(Integer'Image(valDest.Valeur_Entier));
+            end if;
+        -- Lire ()
+        elsif (operateur = -15) then
+            Get(input);	
+            if (typeVarDest = Caractere) then
+                Memoire.Affectation_Variable(varDest, new T_Element'(Type_Element => Caractere, Valeur_Caractere => input), mem);
+            elsif (typeVarDest = Entier) then
+                Memoire.Affectation_Variable(varDest, new T_Element'(Type_Element => Entier, Valeur_Entier => Integer'Value((1 => input))), mem);
+            end if;
+        end if;
+    end;
 end executeur;

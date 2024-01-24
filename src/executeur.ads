@@ -18,5 +18,6 @@ package Executeur is
     procedure operation(mem : in out T_Memoire; varDest : in Integer; valSource1 : in T_Element_Access; valSource2 : in T_Element_Access; operateur : in integer) with
         Pre => valSource1.Type_Element = valSource2.Type_Element;
     
+    procedure lire_ecrire(mem : in out T_Memoire; varDest : in Integer; operateur : in Integer);
     
 end Executeur;

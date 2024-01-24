@@ -58,6 +58,16 @@ package body Interpreteur is
         end if;
         return cp + 1;
     end;
+    
+    function parametrer_lire_ecrire(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
+        varDest : Integer;
+    begin
+        varDest := instruction(2);
+        operateur := instruction(1);
+        
+        Executeur.lire_ecrire(mem, varDest, operateur);
+        return cp + 1;
+    end;
 
     function programme_fini(instruction : in T_Instruction) return Boolean is
     begin
@@ -74,11 +84,14 @@ package body Interpreteur is
         elsif instruction(1) = -1 and then instruction (3) = -2 then
             cp := parametrer_condition(mem, instruction, cp);
         -- affectation
-        elsif instruction(1) > 0 and then instruction(3) = -12 then
+        elsif instruction(1) > 0 then
             cp := parametrer_affectation(mem, instruction, cp);
         -- operation
         elsif instruction(3) < 0 then
             cp := parametrer_operation(mem, instruction, cp);
+        -- lire ou ecrire sur le terminal
+        elsif instruction (1) = -14 or instruction(1) = -15 then
+            cp := paramatrer_lire_ecrire(mem, instruction, cp);
         end if;
         
         return programme_fini(instruction);

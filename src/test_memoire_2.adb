@@ -7,8 +7,8 @@ procedure test_memoire_2 is
     mem : T_Memoire;
     var_a : Integer;
     var_b : Character;
-    a : Integer;
-    b : Integer;
+    a : UNbounded_String;
+    b : UNbounded_String;
     c : Integer;
 begin
     Initialiser(mem);
@@ -21,8 +21,8 @@ begin
     Put(Integer'Image(var_a));
     Put(var_b);
     
-    a := 0;
-    b := 0;
-    c := (if (a /= 0 or b /= 0) then 1 else 0);
+    a := To_Unbounded_String("adaaa");
+    b := To_Unbounded_String("aa");
+    c := (if a = b then 1 else 0);
     Put_Line(Integer'Image(c));
 end test_memoire_2;
