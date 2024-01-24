@@ -7,6 +7,9 @@ procedure test_memoire_2 is
     mem : T_Memoire;
     var_a : Integer;
     var_b : Character;
+    a : Integer;
+    b : Integer;
+    c : Integer;
 begin
     Initialiser(mem);
     Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
@@ -17,4 +20,9 @@ begin
 
     Put(Integer'Image(var_a));
     Put(var_b);
+    
+    a := 0;
+    b := 0;
+    c := (if (a /= 0 or b /= 0) then 1 else 0);
+    Put_Line(Integer'Image(c));
 end test_memoire_2;

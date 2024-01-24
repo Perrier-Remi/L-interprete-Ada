@@ -116,8 +116,8 @@ package body Memoire is
                     valeur := To_Unbounded_String(Integer'Image(variable.Valeur_Entier));
                 when Caractere =>
                     valeur := To_Unbounded_String(Character'Image(variable.Valeur_Caractere));
-                when Booleen =>
-                    valeur := To_Unbounded_String(Boolean'Image(variable.Valeur_Booleen));
+                when Chaine =>
+                    valeur := variable.Valeur_Chaine;
                 end case;
                 Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom)  & " =" & To_String(valeur));
             end if;

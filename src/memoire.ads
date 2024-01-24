@@ -4,7 +4,7 @@ with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
 
 package Memoire is
 
-    type T_Type_Element is (Entier, Caractere, Booleen);
+    type T_Type_Element is (Entier, Caractere, Chaine);
 
     type T_Element (Type_Element : T_Type_Element) is record
         case Type_Element is
@@ -12,8 +12,8 @@ package Memoire is
                 Valeur_Entier : Integer;
             when Caractere =>
                 Valeur_Caractere : Character;
-            when Booleen =>
-                Valeur_Booleen : Boolean;
+            when Chaine =>
+                Valeur_Chaine : Unbounded_String;
         end case;
     end record;
     

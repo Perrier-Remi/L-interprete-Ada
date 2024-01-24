@@ -1,3 +1,4 @@
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Memoire; use Memoire;
 
 package body executeur is
@@ -32,40 +33,59 @@ package body executeur is
         typeVarDest := valDest.Type_Element;
         if (valSource1.Type_Element = Entier) and (typeVarDest = Entier) then 
             case operateur is
-            when -3 => 
-                valDest.Valeur_Entier := valSource1.Valeur_Entier + valSource2.Valeur_Entier;
-            when -4 =>
-                valDest.Valeur_Entier := valSource1.Valeur_Entier - valSource2.Valeur_Entier;
-            when -5 =>
-                valDest.Valeur_Entier := valSource1.Valeur_Entier * valSource2.Valeur_Entier;
-            when -6 =>
-                valDest.Valeur_Entier := valSource1.Valeur_Entier / valSource2.Valeur_Entier;
-            when others =>
-                valDest := null;
+                when -3 => 
+                    valDest.Valeur_Entier := valSource1.Valeur_Entier + valSource2.Valeur_Entier;
+                when -4 =>
+                    valDest.Valeur_Entier := valSource1.Valeur_Entier - valSource2.Valeur_Entier;
+                when -5 =>
+                    valDest.Valeur_Entier := valSource1.Valeur_Entier * valSource2.Valeur_Entier;
+                when -6 =>
+                    valDest.Valeur_Entier := valSource1.Valeur_Entier / valSource2.Valeur_Entier;
+                when -7 =>
+                    valDest.Valeur_Entier := (if valSource1.Valeur_Entier = valSource2.Valeur_Entier then 1 else 0);
+                when -8 =>
+                    valDest.Valeur_Entier := (if valSource1.Valeur_Entier < valSource2.Valeur_Entier then 1 else 0);
+                when -9 =>
+                    valDest.Valeur_Entier := (if valSource1.Valeur_Entier > valSource2.Valeur_Entier then 1 else 0);
+                when -10 =>                
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Entier /= 0 or valSource2.Valeur_Entier /= 0) then 1 else 0);
+                when -11 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Entier /= 0 and valSource2.Valeur_Entier /= 0) then 1 else 0);
+                when others =>
+                    valDest := null;
             end case;
-        end if;
-        if (valSource1.Type_Element = Entier) and (typeVarDest = Booleen) then 
+        elsif (valSource1.Type_Element = Caractere) and (typeVarDest = Entier) then 
             case operateur is
-            when -7 =>
-                valDest.Valeur_Booleen := valSource1.Valeur_Entier = valSource2.Valeur_Entier;
-            when -8 =>
-                valDest.Valeur_Booleen := valSource1.Valeur_Entier < valSource2.Valeur_Entier;
-            when -9 =>
-                valDest.Valeur_Booleen := valSource1.Valeur_Entier > valSource2.Valeur_Entier;
-            when others =>
-                valDest := null;
+                when -7 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Caractere = valSource2.Valeur_Caractere) then 1 else 0);
+                when -8 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Caractere < valSource2.Valeur_Caractere) then 1 else 0);
+                when -9 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Caractere > valSource2.Valeur_Caractere) then 1 else 0);
+                when others =>
+                    valDest := null;
             end case;
-        end if;
-        if (valSource1.Type_Element = Booleen) and (typeVarDest /= Entier) then 
+        elsif (valSource1.Type_Element = Chaine) and (typeVarDest = Entier) then 
             case operateur is
-            when -10 =>                
-                valDest.Valeur_Booleen := valSource1.Valeur_Booleen or valSource2.Valeur_Booleen;
-            when -11 =>
-                valDest.Valeur_Booleen := valSource1.Valeur_Booleen and valSource2.Valeur_Booleen;
-            when others =>
-                valDest := null;
+                when -7 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Chaine = valSource2.Valeur_Chaine) then 1 else 0);
+                when -8 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Chaine < valSource2.Valeur_Chaine) then 1 else 0);
+                when -9 =>
+                    valDest.Valeur_Entier := (if (valSource1.Valeur_Chaine > valSource2.Valeur_Chaine) then 1 else 0);
+                when others =>
+                    valDest := null;
             end case;
-        end if;
+        elsif (valSource1.Type_Element = Chaine) and (typeVarDest = Chaine) then 
+            case operateur is
+                when -3 =>
+                    valDest.Valeur_Chaine := valSource1.Valeur_Chaine & valSource2.Valeur_Chaine;
+                when others =>
+                    valDest := null;
+            end case;
+        else
+            valDest := null;
+        end if; 
         
         if (valDest = null) then
             raise erreur_code_intermediaire;
