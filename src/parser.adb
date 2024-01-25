@@ -201,7 +201,7 @@ package body Parser is
             end loop;
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Chaine"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Affectation_Variable(y, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String(Indice + 1)), Ma_Memoire);
+                  Affectation_Variable(y, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String(To_String(Tab_ligne.Tab_Split_String(i+1))(2..To_String(Tab_ligne.Tab_Split_String(i+1))'Last-1))), Ma_Memoire); --(2..Tab_ligne.Tab_Split_String(i + 1)'Last)
             end loop;
             else
                null;
@@ -256,13 +256,15 @@ package body Parser is
       else
          if Variable(Variable'Last) = ''' then
             Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
-            Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille+1) := Nom_var;
+            Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
+            Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
             Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => Variable(Variable'First + 1)), Nom_Var , True, Memoire);
             Tab_Instru(Indice) := Memoire.Taille;
             
          elsif Variable(Variable'Last) = '"' then
             Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
-            Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille+1) := Nom_var;
+            Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
+            Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
             Chaine_caractere := To_Unbounded_String(Variable(Variable'First+1..Variable'Last-1));
             Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => Chaine_caractere), Nom_Var , True, Memoire);
             Tab_Instru(Indice) := Memoire.Taille;
@@ -270,7 +272,8 @@ package body Parser is
          else 
             Nombre :=  Integer'Value(Variable);
             Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
-            Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille+1) := Nom_var;
+            Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
+            Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
             Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => Nombre), Nom_Var , True, Memoire);
             Tab_Instru(Indice) := Memoire.Taille; 
                           
@@ -588,10 +591,6 @@ package body Parser is
       end loop;
       Close (F);
 
-      for u in 1..Correspondance_Variable.Taille loop
-         Put_Line (To_String(Correspondance_Variable.Tab_Nom_Variabe(u)));
-      end loop;
-      
    end Lire_Fichier;
    
    
