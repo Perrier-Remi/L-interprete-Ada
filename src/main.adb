@@ -1,5 +1,7 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Command_Line; use Ada.Command_Line;
+with GNAT.OS_Lib;
 with Interpreteur; use Interpreteur;
 with Memoire; use Memoire;
 with Parser; use Parser;
@@ -21,22 +23,34 @@ procedure Main is
     --
     -- variables :
     -- i, a, b : Integer
-    procedure Initialiser_Main is
+    procedure Initialiser_Main(prog : in out T_Programme; mem : in out T_Memoire) is
+        path : Unbounded_String;
     begin
-        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("i"), False, mem);
-        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
-        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("b"), False, mem);        
-        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 2), To_Unbounded_String(""), True, mem);
-        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String(""), True, mem);
-        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 12), To_Unbounded_String(""), True, mem);
+        if (Argument_Count = 1) then
+            path := To_Unbounded_String(Argument(1));
+            Put_Line(To_String(path));
+            Memoire.Initialiser(mem);       
+            Parser.Lire_Fichier(To_String(path), prog, mem);
+            Parser.Renvoyer_Resultat_Programme(prog);
+        else
+            Put_Line("Erreur  : Vous devez mettre un code intermediaire en parametre du programme");
+            Put_Line("Exemple : ./main code_intermediaire.txt");
+            GNAT.OS_Lib.OS_Exit (0);
+        end if;
+--        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("i"), False, mem);
+--        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
+--        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("b"), False, mem);        
+--        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 2), To_Unbounded_String(""), True, mem);
+--        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String(""), True, mem);
+--        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 12), To_Unbounded_String(""), True, mem);
         
-        prog.Tab_Instruction(1) := (1,  4, -12, 0, 0, 0);
-        prog.Tab_Instruction(2) := (2,  1, -12, 0, 0, 0);
-        prog.Tab_Instruction(3) := (3,  1,  -4, 2, 0, 0);
-        prog.Tab_Instruction(4) := (-1, 3,  -2, 6, 0, 1);
-        prog.Tab_Instruction(5) := (3,  5, -12, 0, 0, 0);
-        prog.Tab_Instruction(6) := (3,  6, -12, 0, 0, 0);
-        prog.Tab_Instruction(7) := (0,  0,   0, 0, 0, 0);
+--        prog.Tab_Instruction(1) := (1,  4, -12, 0, 0, 0);
+--        prog.Tab_Instruction(2) := (2,  1, -12, 0, 0, 0);
+--        prog.Tab_Instruction(3) := (3,  1,  -4, 2, 0, 0);
+--        prog.Tab_Instruction(4) := (-1, 3,  -2, 6, 0, 1);
+--        prog.Tab_Instruction(5) := (3,  5, -12, 0, 0, 0);
+--        prog.Tab_Instruction(6) := (3,  6, -12, 0, 0, 0);
+--        prog.Tab_Instruction(7) := (0,  0,   0, 0, 0, 0);
     end Initialiser_Main;
     
     cp : Integer;
@@ -64,8 +78,12 @@ procedure Main is
         return choix(1);
     end Menu;
     
-    procedure Afficher_Debug is
+    procedure Afficher_Debug(instruction_courrante : in T_Instruction) is
     begin
+        for I in 1..6 loop
+            Put(Integer'Image(instruction_courrante(I)));
+        end loop;
+        New_Line;
         Memoire.Afficher_Memoire(mem);
         Put_Line("Instruction suivante : " & Integer'Image(cp));
         Put_Line("Appuyez sur entrée pour continuer le programme");
@@ -80,17 +98,18 @@ begin
     -- tant que prog non fini faire
     --     executer instruction
     -- fin tant que
-    -- afficher mémoire
+    -- afficher mémoire        
 
-    mode := Menu;
-    Memoire.Initialiser(mem);
-    Initialiser_Main;
+
+
+    Initialiser_Main(prog, mem);
     cp := 1;
     prog_fini := false;
 
+    mode := Menu;    
     loop
         if mode = MODE_DEBUG then
-            Afficher_Debug;
+            Afficher_Debug(prog.Tab_Instruction(cp));
         end if;
         instruction_courrante := prog.Tab_Instruction(cp);
         prog_fini := Interpreteur.executer_ligne(mem, instruction_courrante, cp);

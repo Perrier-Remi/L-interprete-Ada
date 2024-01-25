@@ -6,9 +6,9 @@ with Memoire; use Memoire;
 with Parser; use Parser;
 
 procedure test_executeur is
-   -- Déclarer une variable pour tester le package Memoire
-   mem : T_Memoire;
-
+    -- Déclarer une variable pour tester le package Memoire
+    mem : T_Memoire;
+    
 begin
     -- initialisition memoire
     Initialiser(mem);

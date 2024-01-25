@@ -1,9 +1,8 @@
-with Text_IO; use Text_IO;
 with Executeur; use Executeur;
 with Memoire; use Memoire;
 with Parser; use Parser;
 
-package body Interpreteur is
+package body interpreteur is
     
     function parametrer_branchement(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         valeur : Integer;
@@ -61,6 +60,7 @@ package body Interpreteur is
     
     function parametrer_lire_ecrire(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         varDest : Integer;
+        operateur : Integer;
     begin
         varDest := instruction(2);
         operateur := instruction(1);
@@ -84,22 +84,24 @@ package body Interpreteur is
         elsif instruction(1) = -1 and then instruction (3) = -2 then
             cp := parametrer_condition(mem, instruction, cp);
         -- affectation
-        elsif instruction(1) > 0 then
+        elsif instruction(1) > 0  and then instruction(3) = 0 and then instruction(4) = 0 then
             cp := parametrer_affectation(mem, instruction, cp);
         -- operation
         elsif instruction(3) < 0 then
             cp := parametrer_operation(mem, instruction, cp);
         -- lire ou ecrire sur le terminal
-        elsif instruction (1) = -14 or instruction(1) = -15 then
-            cp := paramatrer_lire_ecrire(mem, instruction, cp);
+        elsif instruction (1) = -14 or else instruction(1) = -15 then
+            cp := parametrer_lire_ecrire(mem, instruction, cp);
+        -- NULL
+        elsif instruction(1) = -13 then
+            cp := cp + 1;
         end if;
         
         return programme_fini(instruction);
         
     exception 
         when erreur_code_intermediaire =>
-            Put_Line("Erreur dans le code intermediaire ligne " & Integer'Image(cp));
             return True;
     end;
     
-end Interpreteur;
+end interpreteur;

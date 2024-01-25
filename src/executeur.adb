@@ -86,7 +86,7 @@ package body executeur is
             end case;
         else
             valDest := null;
-        end if; 
+        end if;
         
         if (valDest = null) then
             raise erreur_code_intermediaire;
