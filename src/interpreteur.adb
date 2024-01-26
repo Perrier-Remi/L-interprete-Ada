@@ -4,19 +4,19 @@ with Parser; use Parser;
 
 package body interpreteur is
     
-    function parametrer_branchement(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
+    function parametrer_branchement(instruction : in T_Instruction; cp : in Integer) return Integer is
         valeur : Integer;
     begin
-        valeur := instruction(2);
+        valeur := instruction(2); -- valeur du saut à effectuer
         return Executeur.branchement(cp, valeur);
-    end;   
+    end;
 
     function parametrer_condition(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         test : Integer;
         valeur : Integer;
     begin
-        test := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur.Valeur_Entier;
-        valeur := instruction(4);
+        test := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur.Valeur_Entier; -- récupération de la valeur de la variable de test
+        valeur := instruction(4); -- valeur du saut à effectuer si le test est vrai
         return Executeur.condition(test, cp, valeur);
     end;
 
@@ -25,10 +25,10 @@ package body interpreteur is
         valSource : T_Element_Access;
         erreur_code_intermediaire : exception;
     begin
-        varDest := instruction(1);
-        valSource := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur;
+        varDest := instruction(1); -- indice de la variable de destination dans la mémoire
+        valSource := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur; -- valeur de la variable source
         
-        -- si le type de destination est différent du type source → lever une exception
+        -- si le type de destination est différent du type source, alors on lève une exception
         if Memoire.Renvoie_Variable(mem, varDest).Valeur.Type_Element /= valSource.Type_Element then
             raise erreur_code_intermediaire;
         else
@@ -45,11 +45,12 @@ package body interpreteur is
         operateur : Integer;
         erreur_code_intermediaire : exception;
     begin
-        varDest := instruction(1);
-        valSource1 := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur;
-        valSource2 := Memoire.Renvoie_Variable(mem, instruction(4)).Valeur;
-        operateur := instruction(3);
+        varDest := instruction(1); -- indice de la variable de destination dans la mémoire
+        valSource1 := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur; -- valeur de la première variable source
+        valSource2 := Memoire.Renvoie_Variable(mem, instruction(4)).Valeur; -- valeur de la seconde variable source
+        operateur := instruction(3); -- code de l'opétateur
         
+        -- si les types des deux valeurs sources sont différents, alors on lève une exception
         if valSource1.Type_Element /= valSource2.Type_Element then
             raise erreur_code_intermediaire;
         else
@@ -59,13 +60,13 @@ package body interpreteur is
     end;
     
     function parametrer_lire_ecrire(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
-        varDest : Integer;
+        var : Integer;
         operateur : Integer;
     begin
-        varDest := instruction(2);
-        operateur := instruction(1);
+        var := instruction(2); -- code de la variable à lire ou écrire
+        operateur := instruction(1); -- opérateur valant -14 ou -15 pour lire ou écrire
         
-        Executeur.lire_ecrire(mem, varDest, operateur);
+        Executeur.lire_ecrire(mem, var, operateur);
         return cp + 1;
     end;
 
@@ -79,7 +80,7 @@ package body interpreteur is
     begin
         -- branchement
         if instruction(1) = -2 then
-            cp := parametrer_branchement(mem, instruction, cp);
+            cp := parametrer_branchement(instruction, cp);
         -- condition
         elsif instruction(1) = -1 and then instruction (3) = -2 then
             cp := parametrer_condition(mem, instruction, cp);
@@ -92,7 +93,7 @@ package body interpreteur is
         -- lire ou ecrire sur le terminal
         elsif instruction (1) = -14 or else instruction(1) = -15 then
             cp := parametrer_lire_ecrire(mem, instruction, cp);
-        -- NULL
+        -- operation NULL
         elsif instruction(1) = -13 then
             cp := cp + 1;
         end if;
@@ -101,6 +102,7 @@ package body interpreteur is
         
     exception 
         when erreur_code_intermediaire =>
+            raise erreur_code_intermediaire;
             return True;
     end;
     

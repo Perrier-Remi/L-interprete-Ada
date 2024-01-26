@@ -7,48 +7,65 @@ with Parser; use Parser;
 
 
 procedure test_interpreteur is
-   -- Déclarer une variable pour tester le package Memoire
-   Ma_Variable : T_Memoire;
-
-   -- Déclarer d'autres variables nécessaires pour les tests
-   Code_Test_1 : constant Integer := 1;
-   Valeur_Test_1 : constant Integer := 12;
-   Nom_Test_1 : Unbounded_String := To_Unbounded_String("var1");
-   Code_Test_2 : constant Integer := 2;
-   Valeur_Test_2 : constant Integer := 32;
-   Nom_Test_2 : Unbounded_String := To_Unbounded_String("var2");
-   
+    -- Déclarer une variable pour tester le package Memoire
+    mem : T_Memoire;
+    
     cp : Integer;
     instruction : T_Instruction;
-    
 begin
     
     -- Initialiser Memoire
-    Initialiser(Ma_Variable);
+    Initialiser(mem);
+    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("e1"), False, mem); 
+    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 10), To_Unbounded_String("e2"), False, mem);
+    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 3), To_Unbounded_String(""), True, mem);    
+    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c1"), False, mem);
+    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c2"), False, mem);
+    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'd'), To_Unbounded_String(""), False, mem);
 
-    cp := 1;
     
     -- test instruction branchement
-    instruction := (-2, 3, -12, 0, 1, 0); -- GOTO 3
-    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
+    cp := 1;
+    instruction := (-2, 3, 0, 0, 1, 0); -- GOTO 3
+    pragma Assert(not executer_ligne(mem, instruction, cp)); -- le programme n'étant pas fini, executer_ligne renvoie false
     pragma Assert(cp = 3);
 
     -- test instruction condition
-    instruction := (-1, 1, -2, 5, 0, 1); -- IF var1 GOTO 5
-    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
-    pragma Assert(cp = 5);
+    cp := 1;
+    instruction := (-1, 1, -2, 5, 0, 1); -- IF e1 GOTO 5 (faux → cp reste passe à l'instruction suivante)
+    pragma Assert(not executer_ligne(mem, instruction, cp));
+    pragma Assert(cp = 2);
+    
+    cp := 1;
+    instruction := (-1, 2, -2, 8, 0, 1); -- IF e2 GOTO 8 (vrai → cp passe à 8)
+    pragma Assert(not executer_ligne(mem, instruction, cp));
+    pragma Assert(cp = 8);
 
     -- test instruction affectation
-    instruction := (1, 3, -12, 0, 1, 0); -- var1 <- 3
-    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
-    pragma Assert(cp = 5);
-    pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur.Valeur_Entier = 3);
+    cp := 1;    
+    instruction := (1, 3, 0, 0, 0, 0); -- e1 <- 3
+    pragma Assert(not executer_ligne(mem, instruction, cp));
+    pragma Assert(cp = 2);
+    pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 3);
 
+    cp := 1;
+    instruction := (4, 6, 0, 0, 0, 0); -- c1 <- 'd'
+    pragma Assert(not executer_ligne(mem, instruction, cp));
+    pragma Assert(cp = 2);
+    pragma Assert(Renvoie_Variable(mem, 4).Valeur.Valeur_Caractere = 'd');
     
-    --test instruction operation
-    instruction := (1, 3, -3, 4, 1, 1); -- var1 <- 3 + 4
-    pragma Assert(executer_ligne(Ma_Variable, instruction, cp));
-    pragma Assert(cp = 5);
-    pragma Assert(Renvoie_Variable(Ma_Variable, 1).Valeur.Valeur_Entier = 7);
+    -- test instruction operation
+    -- tous les cas d'opération ne sont pas traités ici mais dans le fichier test_executeur, ce test permet de vérifier que les opérations sont bien paramétrés
+    cp := 1;
+    instruction := (1, 2, -3, 3, 0, 0); -- e1 <- e2 + 3
+    pragma Assert(not executer_ligne(mem, instruction, cp));
+    pragma Assert(cp = 2);
+    pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 13);
+    
+    -- test fin programme
+    cp := 1;
+    instruction := (0, 0, 0, 0, 0, 0);
+    pragma Assert(executer_ligne(mem, instruction ,cp));
+    pragma Assert(cp = 1);
    
 end test_interpreteur;

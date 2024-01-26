@@ -8,58 +8,33 @@ with Parser; use Parser;
 
 procedure Main is
     
-    prog : Parser.T_Programme;
-    mem : T_Memoire;
-
+    prog : Parser.T_Programme; -- variable contenant toutes les instructions du programme
+    mem : T_Memoire; -- variable contenant la mémoire du programme
+    cp : Integer; -- valeur de cp
+    prog_fini : Boolean; -- variable booléenne indiquant si un programme est fini ou non
+    instruction_courrante : Parser.T_Instruction; -- variable contenant une instruction du programme
+    mode : Character; -- variable contenant le mode d'exécution (débug ou normal)
+    MODE_NORMAL : Constant Character := '1';
+    MODE_DEBUG : Constant Character := '2';
     
-    -- Programme simple
-    -- 1 i <- 2
-    -- 2 a <- i
-    -- 3 b <- i - a
-    -- 4 if b goto 6
-    -- 5 b <- 0
-    -- 6 b <- 12
-    -- 7 fin prog (opérateur 0)
-    --
-    -- variables :
-    -- i, a, b : Integer
+    -- chargement du programme et de la mémoire à partir d'un fichier de code intermédiaire
     procedure Initialiser_Main(prog : in out T_Programme; mem : in out T_Memoire) is
         path : Unbounded_String;
     begin
         if (Argument_Count = 1) then
-            path := To_Unbounded_String(Argument(1));
-            Put_Line(To_String(path));
-            Memoire.Initialiser(mem);       
-            Parser.Lire_Fichier(To_String(path), prog, mem);
-            Parser.Renvoyer_Resultat_Programme(prog);
+            path := To_Unbounded_String(Argument(1)); -- récupération du chemin du code intermédiaire
+            Memoire.Initialiser(mem); -- initialisation de la mémoire
+            Parser.Lire_Fichier(To_String(path), prog, mem); -- chargement du code intermédiaire dans la mémoire et dans le programme
+            Parser.Renvoyer_Resultat_Programme(prog); -- création d'un fichier d'instructions
         else
             Put_Line("Erreur  : Vous devez mettre un code intermediaire en parametre du programme");
             Put_Line("Exemple : ./main code_intermediaire.txt");
             GNAT.OS_Lib.OS_Exit (0);
         end if;
---        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("i"), False, mem);
---        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
---        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("b"), False, mem);        
---        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 2), To_Unbounded_String(""), True, mem);
---        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String(""), True, mem);
---        Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 12), To_Unbounded_String(""), True, mem);
-        
---        prog.Tab_Instruction(1) := (1,  4, -12, 0, 0, 0);
---        prog.Tab_Instruction(2) := (2,  1, -12, 0, 0, 0);
---        prog.Tab_Instruction(3) := (3,  1,  -4, 2, 0, 0);
---        prog.Tab_Instruction(4) := (-1, 3,  -2, 6, 0, 1);
---        prog.Tab_Instruction(5) := (3,  5, -12, 0, 0, 0);
---        prog.Tab_Instruction(6) := (3,  6, -12, 0, 0, 0);
---        prog.Tab_Instruction(7) := (0,  0,   0, 0, 0, 0);
     end Initialiser_Main;
     
-    cp : Integer;
-    prog_fini : Boolean;
-    instruction_courrante : Parser.T_Instruction;
-    mode : Character;
-    MODE_NORMAL : Constant Character := '1';
-    MODE_DEBUG : Constant Character := '2';
 
+    -- affichage du menu permettant de sélection le mode d'exécution du programme
     function Menu return Character is
         choix : String(1..128);
         last : Integer;
@@ -78,12 +53,9 @@ procedure Main is
         return choix(1);
     end Menu;
     
+    -- procédure permettant d'afficher le mode debug d'une instruction
     procedure Afficher_Debug(instruction_courrante : in T_Instruction) is
     begin
-        for I in 1..6 loop
-            Put(Integer'Image(instruction_courrante(I)));
-        end loop;
-        New_Line;
         Memoire.Afficher_Memoire(mem);
         Put_Line("Instruction suivante : " & Integer'Image(cp));
         Put_Line("Appuyez sur entrée pour continuer le programme");
@@ -91,22 +63,15 @@ procedure Main is
     end;
     
 begin
-
-    -- initialiser les variables
-    -- initialiser le programme
-    -- initialiser cp
-    -- tant que prog non fini faire
-    --     executer instruction
-    -- fin tant que
-    -- afficher mémoire        
-
-
-
+    -- initialisation du programme
     Initialiser_Main(prog, mem);
     cp := 1;
     prog_fini := false;
-
-    mode := Menu;    
+    
+    -- choix du mode d'exécution
+    mode := Menu;
+ 
+    -- exécution du programme
     loop
         if mode = MODE_DEBUG then
             Afficher_Debug(prog.Tab_Instruction(cp));
@@ -115,5 +80,4 @@ begin
         prog_fini := Interpreteur.executer_ligne(mem, instruction_courrante, cp);
         exit when prog_fini;
     end loop;
-    
 end Main;

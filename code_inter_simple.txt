@@ -1,0 +1,11 @@
+Programme SimpleTest est
+i, a, b : Entier
+Debut
+i <- 2
+a <- i
+b <- i - a
+IF b GOTO L1
+b <- 0
+L1 b <- 12
+NULL
+Fin

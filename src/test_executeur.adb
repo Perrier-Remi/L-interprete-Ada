@@ -19,7 +19,6 @@ begin
     Memoire.Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("aa")), To_Unbounded_String("s1"), False, mem);        
     Memoire.Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("aa")), To_Unbounded_String("s2"), False, mem);        
    
-
     
     -- tests branchement
     pragma Assert(branchement(2,1) = 1);
@@ -133,7 +132,6 @@ begin
     operation(mem, 1, Renvoie_Variable(mem, 6).Valeur, Renvoie_Variable(mem, 5).Valeur, -9);
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 0);
 
-
     --opération : e1 (1) <- c1 'c' = c1 'c' (vrai)
     operation(mem, 1, Renvoie_Variable(mem, 3).Valeur, Renvoie_Variable(mem, 3).Valeur, -7);
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 1);
@@ -158,4 +156,18 @@ begin
     operation(mem, 1, Renvoie_Variable(mem, 4).Valeur, Renvoie_Variable(mem, 3).Valeur, -9);
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 0);
 
+    -- écrire e1 (0)
+    lire_ecrire(mem, 1, -14);
+    -- écrire c1 ('c')
+    lire_ecrire(mem, 3, -14);
+    
+    -- lire e1
+    lire_ecrire(mem, 1, -15);
+    pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 1);
+    
+    -- lire c1
+    lire_ecrire(mem, 3, -15);
+    pragma Assert(Renvoie_Variable(mem, 3).Valeur.Valeur_Caractere = 'a');
+
+    
 end test_executeur;
