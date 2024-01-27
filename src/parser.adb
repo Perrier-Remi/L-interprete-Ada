@@ -125,19 +125,29 @@ package body Parser is
         index_str : Integer := 1;
         longueur_str : Integer;
         splited_string : T_Split_String;
-        mot_courrant : Unbounded_String;
+      mot_courrant : Unbounded_String;
+      chaine_caractere : Boolean := False ;
    begin
       Initialiser_T_Split_String (splited_string); 
         longueur_str := input'Last;
         mot_courrant := To_Unbounded_String("");
         while index_str <= longueur_str loop
-            if input(index_str) = ' ' then
+            if input(index_str) = ' ' and not chaine_caractere then
             splited_string.Tab_Split_String(index_tab) := mot_courrant;
             splited_string.Taille := splited_string.Taille +1;
                 mot_courrant := To_Unbounded_String("");
                 index_tab := index_tab + 1;
-            else
-                Append(mot_courrant, input(index_str));
+         else
+            if input(index_str) = '"' and not chaine_caractere then
+               chaine_caractere := True;
+            elsif input(index_str) = '"' and chaine_caractere then
+               chaine_caractere := False;
+            else 
+               null;
+            end if;
+            
+            Append(mot_courrant, input(index_str));
+            
             end if;
             index_str := index_str + 1;
       end loop;
@@ -156,7 +166,7 @@ package body Parser is
       Indice : Integer;
       Nom_var : Unbounded_String;
       Etat : Integer := 0;
-      --Val_Caractere : Character;
+      Val_Caractere : Character;
       Ancien_Taille_Instancier : Constant Integer := Correspondance_Var.Taille;
       
    begin
@@ -196,8 +206,9 @@ package body Parser is
             -- Recherche '<-' pour rechercher une potentiel affectation.
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Caractere"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  --Val_Caractere := To_String(Tab_ligne.Tab_Split_String(i + 1))(2);
-                  Affectation_Variable(y, new T_Element'(Type_Element => Caractere, Valeur_Caractere => To_String(Tab_ligne.Tab_Split_String(i + 1))(2)), Ma_Memoire);
+                  val_Caractere := To_String(Tab_ligne.Tab_Split_String(i + 1))(2);
+                  Put (val_Caractere);
+                  Affectation_Variable(y, new T_Element'(Type_Element => Caractere, Valeur_Caractere => val_Caractere), Ma_Memoire);
             end loop;
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Chaine"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
