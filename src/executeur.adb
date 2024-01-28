@@ -23,7 +23,7 @@ package body executeur is
     
     procedure affectation (mem : in out T_Memoire; varDest : in integer; valeur : in T_Element_Access) is
     begin
-        Memoire.Affectation_Variable(varDest, valeur, mem);
+        Memoire.Affectation_Variable(mem, varDest, valeur);
     end;
 
     procedure operation(mem : in out T_Memoire; varDest : in Integer; valSource1 : in T_Element_Access; valSource2 : in T_Element_Access; operateur : in integer) is
@@ -107,7 +107,7 @@ package body executeur is
         if (valDest = null) then
             raise erreur_code_intermediaire;
         else
-            Memoire.Affectation_Variable(varDest, valDest, mem);  -- Affectation du résultat dans la mémoire
+            Memoire.Affectation_Variable(mem, varDest, valDest);  -- Affectation du résultat dans la mémoire
         end if;
         
     end operation;
@@ -132,9 +132,9 @@ package body executeur is
         elsif (operateur = -15) then
             Get(input);	
             if (typeVar = Caractere) then
-                Memoire.Affectation_Variable(var, new T_Element'(Type_Element => Caractere, Valeur_Caractere => input), mem);
+                Memoire.Affectation_Variable(mem, var, new T_Element'(Type_Element => Caractere, Valeur_Caractere => input));
             elsif (typeVar = Entier) then
-                Memoire.Affectation_Variable(var, new T_Element'(Type_Element => Entier, Valeur_Entier => Integer'Value((1 => input))), mem);
+                Memoire.Affectation_Variable(mem, var, new T_Element'(Type_Element => Entier, Valeur_Entier => Integer'Value((1 => input))));
             end if;
         end if;
     end;

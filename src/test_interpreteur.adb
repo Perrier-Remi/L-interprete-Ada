@@ -16,12 +16,12 @@ begin
     
     -- Initialiser Memoire
     Initialiser(mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("e1"), False, mem); 
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 10), To_Unbounded_String("e2"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 3), To_Unbounded_String(""), True, mem);    
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c1"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c2"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'd'), To_Unbounded_String(""), False, mem);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("e1"), False); 
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 10), To_Unbounded_String("e2"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 3), To_Unbounded_String(""), True);    
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c1"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c2"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'd'), To_Unbounded_String(""), False);
 
     
     -- test instruction branchement

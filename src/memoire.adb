@@ -4,26 +4,6 @@ with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
 
 package body Memoire is
     
-    -- Initialiser la structure de donné composé d'un tableau et d'une Valeur Taille qui nous indique la taille du tableau défini
-    --procedure Initialiser (Variable : out T_Variable) is
-    --begin
-    --   Variable.Taille := 0;
-    --end Initialiser;
-    
-    -----------------Focntion interne au package ------------
-    
-    function Creer_Tab_Variable return T_Tab_Variable is
-        --Memoire : T_Tab_Variable := (others => (Nom => To_Unbounded_String(""), Valeur => T_Element, Code => 0));
-        Memoire : T_Tab_Variable;
-    begin
-        return Memoire;
-    end Creer_Tab_Variable;
-    
-    
-    --function Creer_Donee_Variable (Code : Integer; Valeur : Integer; Nom : Unbounded_String) return T_Variable with
-    --   Pre => Code >= 0,
-    --   Post => Creer_Donee_Variable'Result.Code = Code;
-    
     function Creer_Donee_Variable (Code : in Integer; Valeur : in T_Element_Access; Nom : in Unbounded_String; ConstMachine : in Boolean) return T_Variable is
         Variable : T_Variable;
     begin
@@ -34,21 +14,17 @@ package body Memoire is
         return Variable;
     end Creer_Donee_Variable;
     
-    
-    ----------- Fin Fonction interne au package Memoire ----------------
-    
-    
-    
+    -- Initialisation d'une mémoire vide, de taille 0 et contenant aucuns éléments
     procedure Initialiser (Memoire : out T_Memoire) is
+        Tab_Variables : T_Tab_Variables;
     begin
         Memoire.Taille := 0;
-        Memoire.Tab_var := Creer_Tab_Variable;
+        Memoire.Tab_var := Tab_Variables;
     end Initialiser;
     
     
-    
     -- Créer une variable avec son code, sa valeur et son nom passé en paramètre
-    procedure Creer_Variable (Valeur : in T_Element_Access; Nom : in Unbounded_String; ConstMachine : in Boolean; Memoire : in out T_Memoire) is
+    procedure Creer_Variable (Memoire : in out T_Memoire; Valeur : in T_Element_Access; Nom : in Unbounded_String; ConstMachine : in Boolean) is
     begin
         Memoire.Taille := Memoire.Taille + 1;
         Memoire.Tab_var(Memoire.Taille) := Creer_Donee_Variable(Memoire.Taille , Valeur, Nom, ConstMachine);
@@ -56,7 +32,7 @@ package body Memoire is
     
     
     -- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
-    procedure Affectation_Variable (Code : in integer; Valeur : in T_Element_Access; Memoire : in out T_Memoire) is
+    procedure Affectation_Variable (Memoire : in out T_Memoire; Code : in integer; Valeur : in T_Element_Access) is
     begin
         -- Rechercher la variable correspondante dans le tableau
         --    for I in 1..Memoire.Taille loop
@@ -84,16 +60,10 @@ package body Memoire is
     end Renvoie_Variable;
     
     --Renvoie tous le tableau de variable
-    function Renvoie_Tab_Variable (Memoire : in T_Memoire) return T_Tab_Variable is
+    function Renvoie_Tab_Variable (Memoire : in T_Memoire) return T_Tab_Variables is
     begin
         return Memoire.Tab_var;
     end Renvoie_Tab_Variable;
-    
-    --Renvoie la valeur maximun du code, le code maximun est stocké dans le dernier enregistrement
-    function Renvoie_Code_Max (Memoire : in T_Memoire) return Integer is
-    begin
-        return Memoire.Taille;
-    end Renvoie_Code_Max;
     
     function Renvoie_Taille (Memoire : in T_Memoire) return Integer is
     begin
@@ -102,7 +72,7 @@ package body Memoire is
     
     --Afficher la memoire 
     procedure Afficher_Memoire (Memoire : in T_Memoire) is 
-        Tab_Variable_Result : T_Tab_Variable;
+        Tab_Variable_Result : T_Tab_Variables;
         variable : T_Element_Access;
         valeur : Unbounded_String;
     begin
@@ -118,6 +88,22 @@ package body Memoire is
                     valeur := To_Unbounded_String(Character'Image(variable.Valeur_Caractere));
                 when Chaine =>
                     valeur := variable.Valeur_Chaine;
+                when Tableau =>
+                    valeur := To_Unbounded_String(" (");
+                    for J in I+1..I+variable.Valeur_Taille_Tableau loop
+                        case Tab_Variable_Result(J).Valeur.Type_Element is
+                        when Entier =>
+                            valeur := valeur & To_Unbounded_String(Integer'Image(Tab_Variable_Result(J).Valeur.Valeur_Entier)) & To_Unbounded_String(",");
+                        when Caractere =>
+                            valeur := valeur & To_Unbounded_String(Character'Image(Tab_Variable_Result(J).Valeur.Valeur_Caractere)) & To_Unbounded_String(",");
+                        when Chaine =>
+                            valeur := valeur & Tab_Variable_Result(J).Valeur.Valeur_Chaine;
+                        when others =>
+                            null;
+                        end case;
+                    end loop;
+                    Delete(valeur, Length(valeur), Length(valeur));
+                    valeur := valeur & To_Unbounded_String(" )");
                 end case;
                 Put_Line("Variable : " & To_String(Tab_Variable_Result(I).Nom)  & " =" & To_String(valeur));
             end if;
