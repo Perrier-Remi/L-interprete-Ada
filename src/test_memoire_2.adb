@@ -10,19 +10,28 @@ procedure test_memoire_2 is
     a : UNbounded_String;
     b : UNbounded_String;
     c : Integer;
+    
 begin
+    
     Initialiser(mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'b'), To_Unbounded_String("b"), False, mem);        
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("a"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'b'), To_Unbounded_String("b"), False);        
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Tableau, Valeur_Taille_Tableau => 8), To_Unbounded_String("MonTableau"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 1), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 2), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 3), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 4), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 5), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 6), To_Unbounded_String("MonTableau"), True);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 7), To_Unbounded_String("MonTableau"), True);
+    Afficher_Memoire(mem);
     
-    var_a := Memoire.Renvoie_Variable(mem, 1).Valeur.Valeur_Entier;
-    var_b := Memoire.Renvoie_Variable(mem, 2).Valeur.Valeur_Caractere;
-
-    Put(Integer'Image(var_a));
-    Put(var_b);
-    
-    a := To_Unbounded_String("adaaa");
-    b := To_Unbounded_String("aa");
-    c := (if a = b then 1 else 0);
-    Put_Line(Integer'Image(c));
 end test_memoire_2;
+
+
+-- tab(3) <- 4
+-- 3 4 0 0 0 0 2 0 0
+
+-- tab(a) <- b
+-- 3 1 0 0 0 0 2 0 0 

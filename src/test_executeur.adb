@@ -12,12 +12,12 @@ procedure test_executeur is
 begin
     -- initialisition memoire
     Initialiser(mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("e1"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 10), To_Unbounded_String("e2"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c1"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c2"), False, mem);
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("aa")), To_Unbounded_String("s1"), False, mem);        
-    Memoire.Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("aa")), To_Unbounded_String("s2"), False, mem);        
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("e1"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 10), To_Unbounded_String("e2"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c1"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'a'), To_Unbounded_String("c2"), False);
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("aa")), To_Unbounded_String("s1"), False);        
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("aa")), To_Unbounded_String("s2"), False);        
    
     
     -- tests branchement

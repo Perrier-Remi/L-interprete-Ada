@@ -4,19 +4,19 @@ with Memoire; Use Memoire;
 
 package body Parser is
 
-   ----------------CrÈation des variables interne au package ----------------
+   ----------------Cr√©ation des variables interne au package ----------------
    
- ------ CrÈation des Variables utilisÈ pour la correspondance entre le nom de variable est le code (position dans la liste). -------
+ ------ Cr√©ation des Variables utilis√© pour la correspondance entre le nom de variable est le code (position dans la liste). -------
    MAX_NB_VARIABLES : Constant Integer := 100;
    
    type T_Tab_Nom_Variable is array (1..MAX_NB_VARIABLES) of Unbounded_String;
    
    type T_Correspondance_Variable is record
          Tab_Nom_Variabe : T_Tab_Nom_Variable; --tableau contenant les noms 
-         Taille : Integer; --taille du tableau qui est dÈfini
+         Taille : Integer; --taille du tableau qui est d√©fini
    end record;
    
-   ------ Type de donnÈes utilisÈes pour stockÈes les chaines de caractËres en sortie du split
+   ------ Type de donn√©es utilis√©es pour stock√©es les chaines de caract√®res en sortie du split
    MAX_NB_MOT_SPLIT : Constant Integer := 100;
    
    type T_Split_String_Tab is array (1..MAX_NB_MOT_SPLIT) of Unbounded_String;
@@ -26,7 +26,7 @@ package body Parser is
       Taille : Integer;
    end record;
    
-   --- Type de donnÈes utilisÈes pour stocker les labels ainsi que leur position dans le fichier ------------
+   --- Type de donn√©es utilis√©es pour stocker les labels ainsi que leur position dans le fichier ------------
    
    MAX_NB_LABEL : Constant Integer := 100;
    
@@ -36,27 +36,27 @@ package body Parser is
       Position : Integer; -- Position du label
    end record;
    
-   type T_Tab_Label is array (1..MAX_NB_LABEL) of T_Donnee_Label; --Taille du tableau dÈfini arbitrairement -- Tableau de donnÈe de Label
+   type T_Tab_Label is array (1..MAX_NB_LABEL) of T_Donnee_Label; --Taille du tableau d√©fini arbitrairement -- Tableau de donn√©e de Label
    
    type T_Label is record
          Tab_label : T_Tab_Label; --tableau contenant les labels
-         Taille : Integer; --taille du tableau qui est dÈfini
+         Taille : Integer; --taille du tableau qui est d√©fini
    end record;
    
    type T_Position_Label is record
       Ligne : Integer;
       Indice : Integer;
-      Etat : Integer; --permet de savoir l'etat (ETAT : 0 Correspondance label non trouvÈ  / Etat : 1 Variable / Etat : 2 Correspondance Label trouvÈ)
+      Etat : Integer; --permet de savoir l'etat (ETAT : 0 Correspondance label non trouv√©  / Etat : 1 Variable / Etat : 2 Correspondance Label trouv√©)
    end record;
    
    
-   ----------- Fin dÈfinition package -----------------
+   ----------- Fin d√©finition package -----------------
    
 
    
    ----------------------------------------------------------- Fonction interne au package ------------------ 
    
-   ----------------------------------------Initialiser les types nÈcessaires ---------
+   ----------------------------------------Initialiser les types n√©cessaires ---------
    
 ------------ Instancier le Tableau d'Intruction ----------------
    
@@ -170,49 +170,49 @@ package body Parser is
       Ancien_Taille_Instancier : Constant Integer := Correspondance_Var.Taille;
       
    begin
-      Tab_ligne := Split_String (ligne); --split la ligne afin de rÈcupÈrer les diffÈrents mots 
-      -- Parcourir le tableau rÈsultant pour traiter chaque mot.
+      Tab_ligne := Split_String (ligne); --split la ligne afin de r√©cup√©rer les diff√©rents mots 
+      -- Parcourir le tableau r√©sultant pour traiter chaque mot.
                                          
       for i in 1..Tab_ligne.Taille loop
-         -- Test pour reconnaitre les ':' qui signifie que nous avons les noms de variables avant et le type aprËs
+         -- Test pour reconnaitre les ':' qui signifie que nous avons les noms de variables avant et le type apr√®s
          if To_String(Tab_ligne.Tab_Split_String(i)) = ":" then 
             Etat := 1;
-            Indice := i; -- recuperer de l'indice du caractËre ':'
+            Indice := i; -- recuperer de l'indice du caract√®re ':'
             Correspondance_Var.Taille :=  Correspondance_Var.Taille + (i-1); --augmenter la taille pour les variables instanciers
             
             if To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Entier" or To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Booleen" then --Test pour connaitre le type des variables
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => 0), Correspondance_Var.Tab_Nom_Variabe(y), False, Ma_Memoire);
+                  Creer_Variable(Ma_Memoire, new T_Element'(Type_Element => Entier, Valeur_Entier => 0), Correspondance_Var.Tab_Nom_Variabe(y), False);
                end loop;
             -- Recherche '<-' pour rechercher une potentiel affectation.
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Caractere"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => ' '), Correspondance_Var.Tab_Nom_Variabe(y), False, Ma_Memoire);
+                  Creer_Variable(Ma_Memoire, new T_Element'(Type_Element => Caractere, Valeur_Caractere => ' '), Correspondance_Var.Tab_Nom_Variabe(y), False);
             end loop;
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Chaine"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("a")), Correspondance_Var.Tab_Nom_Variabe(y), False, Ma_Memoire);
+                  Creer_Variable(Ma_Memoire, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("a")), Correspondance_Var.Tab_Nom_Variabe(y), False);
             end loop;
          else
             null;
          end if;
          
          elsif To_String(Tab_ligne.Tab_Split_String(i)) = "<-" then
-            if To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Entier" or To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Booleen" then --Test pour connaitre le type des variables ‡ affecter
+            if To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Entier" or To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Booleen" then --Test pour connaitre le type des variables √† affecter
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
                   --Affectation_Variable(y, new T_Element'(Type_Element => Entier, Valeur_Entier => Integer'Value(To_Integer(To_String(Tab_Split_String(i + 1)))), Ma_Memoire);
-                  Affectation_Variable(y, new T_Element'(Type_Element => Entier, Valeur_Entier => Integer'Value(To_String(Tab_ligne.Tab_Split_String(i + 1)))), Ma_Memoire);
+                  Affectation_Variable(Ma_Memoire, y, new T_Element'(Type_Element => Entier, Valeur_Entier => Integer'Value(To_String(Tab_ligne.Tab_Split_String(i + 1)))));
                end loop;
             -- Recherche '<-' pour rechercher une potentiel affectation.
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Caractere"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
                   val_Caractere := To_String(Tab_ligne.Tab_Split_String(i + 1))(2);
                   Put (val_Caractere);
-                  Affectation_Variable(y, new T_Element'(Type_Element => Caractere, Valeur_Caractere => val_Caractere), Ma_Memoire);
+                  Affectation_Variable(Ma_Memoire, y, new T_Element'(Type_Element => Caractere, Valeur_Caractere => val_Caractere));
             end loop;
             elsif To_String(Tab_ligne.Tab_Split_String(Indice+1)) = "Chaine"then 
                for y in (Ancien_Taille_Instancier+1)..(Correspondance_Var.Taille) loop
-                  Affectation_Variable(y, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String(To_String(Tab_ligne.Tab_Split_String(i+1))(2..To_String(Tab_ligne.Tab_Split_String(i+1))'Last-1))), Ma_Memoire); --(2..Tab_ligne.Tab_Split_String(i + 1)'Last)
+                  Affectation_Variable(Ma_Memoire, y, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String(To_String(Tab_ligne.Tab_Split_String(i+1))(2..To_String(Tab_ligne.Tab_Split_String(i+1))'Last-1)))); --(2..Tab_ligne.Tab_Split_String(i + 1)'Last)
             end loop;
             else
                null;
@@ -224,12 +224,12 @@ package body Parser is
          -- Si Etat = 0 alors on instancie correspondcance Nom Variable   
          if Etat = 0 then --recup nom variable et instancier correspondance entre nom et code
                Nom_var := Tab_ligne.Tab_Split_String(i);
-            --Enlever la virgule en dernier caractËre si elle est prÈsente
+            --Enlever la virgule en dernier caract√®re si elle est pr√©sente
             if To_String(Nom_var)(To_String(Nom_var)'Length) = ',' then 
                -- enlever le dernier caractere
                Nom_var := To_Unbounded_String(To_String(Nom_var)(1 .. To_String(Nom_var)'Length - 1));
             end if;
-            -- InstanciÈ le tableau   
+            -- Instanci√© le tableau   
             Correspondance_Var.Tab_Nom_Variabe(i+Correspondance_Var.Taille) := Nom_var;
             --Put_Line (To_String(Nom_var));
          end if;
@@ -269,7 +269,7 @@ package body Parser is
             Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
             Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
             Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
-            Creer_Variable(new T_Element'(Type_Element => Caractere, Valeur_Caractere => Variable(Variable'First + 1)), Nom_Var , True, Memoire);
+            Creer_Variable(Memoire, new T_Element'(Type_Element => Caractere, Valeur_Caractere => Variable(Variable'First + 1)), Nom_Var , True);
             Tab_Instru(Indice) := Memoire.Taille;
             
          elsif Variable(Variable'Last) = '"' then
@@ -277,7 +277,7 @@ package body Parser is
             Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
             Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
             Chaine_caractere := To_Unbounded_String(Variable(Variable'First+1..Variable'Last-1));
-            Creer_Variable(new T_Element'(Type_Element => Chaine, Valeur_Chaine => Chaine_caractere), Nom_Var , True, Memoire);
+            Creer_Variable(Memoire, new T_Element'(Type_Element => Chaine, Valeur_Chaine => Chaine_caractere), Nom_Var , True);
             Tab_Instru(Indice) := Memoire.Taille;
             
          else 
@@ -285,7 +285,7 @@ package body Parser is
             Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
             Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
             Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
-            Creer_Variable(new T_Element'(Type_Element => Entier, Valeur_Entier => Nombre), Nom_Var , True, Memoire);
+            Creer_Variable(Memoire, new T_Element'(Type_Element => Entier, Valeur_Entier => Nombre), Nom_Var , True);
             Tab_Instru(Indice) := Memoire.Taille; 
                           
          
@@ -327,7 +327,7 @@ package body Parser is
          Label_Ligne.Tab_label(Label_Ligne.Taille).Nom :=To_Unbounded_String(Label);
          Label_Ligne.Tab_label(Label_Ligne.Taille).Ligne := Position_Label.Ligne;
          
-         --Test pour savoir si le label est dÈj‡ rÈfÈrencÈ. 
+         --Test pour savoir si le label est d√©j√† r√©f√©renc√©. 
          for i in 1..Label_GOTO.Taille loop
             if To_String(Label_GOTO.Tab_label(i).Nom) = Label then
                Position_Label.Ligne := Label_GOTO.Tab_label(i).Ligne;
@@ -356,7 +356,7 @@ package body Parser is
          Positon_Label.Etat := 1;
       end if;
       if Positon_Label.Etat = 0 then 
-         Valeur := Label(Label'Last); --test si le caractÈre est un entier 
+         Valeur := Label(Label'Last); --test si le caract√©re est un entier 
          Nombre := Character'Pos(Valeur);
       
          Label_GOTO.Taille := Label_GOTO.Taille + 1;
@@ -382,7 +382,7 @@ package body Parser is
    procedure Convertir_Instruction (Programme : in out T_Programme; Ligne_Split : in T_Split_String; Correspondance_Variable : in out T_Correspondance_Variable; Label_Ligne : in out T_Label; Label_GOTO : in out T_Label; Memoire : in out T_Memoire) is 
       
       Indice : Integer := 1;
-      Tab_Instru : T_Instruction := Programme.Tab_Instruction(Programme.Taille); --rÈcupÈrer le tableau d'entier correspond ‡ la ligne (tableau de 0)
+      Tab_Instru : T_Instruction := Programme.Tab_Instruction(Programme.Taille); --r√©cup√©rer le tableau d'entier correspond √† la ligne (tableau de 0)
       Position_Label : T_Position_Label;
    begin
       Position_Label.Ligne := 0;
@@ -455,19 +455,19 @@ package body Parser is
             Check_Variable (Tab_Instru, Correspondance_Variable, Memoire, To_String(Ligne_Split.Tab_Split_String(i))(2..To_String(Ligne_Split.Tab_Split_String(i))'Last-1), Indice);
             Indice := Indice + 1;
            
-         -- Si le mot commence par 1 et qu'il est en premiËre position de la ligne. 
+         -- Si le mot commence par 1 et qu'il est en premi√®re position de la ligne. 
          elsif To_String(Ligne_Split.Tab_Split_String(i))(1) = 'L' and Indice = 1  then
-            -- Appelle de la fonctionn Check_Label pour rechercher une correspondance avec un label dÈj‡ rÈfÈrencÈ. 
+            -- Appelle de la fonctionn Check_Label pour rechercher une correspondance avec un label d√©j√† r√©f√©renc√©. 
             Position_Label.Ligne := Programme.Taille;
             Position_Label.Indice := Indice;
             Position_Label.Etat := 0;
             
             Check_Label (Label_Ligne, Label_GOTO, To_String(Ligne_Split.Tab_Split_String(i)), Position_Label, Correspondance_Variable);
             
-            -- Si la procÈdure a renvoyÈ un numÈro de ligne et une position. Elle a donc trouvÈ une correspondance avec un autre label dÈj‡ rÈfÈrebncÈ.    
+            -- Si la proc√©dure a renvoy√© un num√©ro de ligne et une position. Elle a donc trouv√© une correspondance avec un autre label d√©j√† r√©f√©rebnc√©.    
             if Position_Label.Etat = 2 then 
                Programme.Tab_Instruction(Position_Label.Ligne)(Position_Label.Indice) := Programme.Taille;
-               --Ajout du 1 pour indiquÈ qu'il s'agit d'une constante et non d'une variable
+               --Ajout du 1 pour indiqu√© qu'il s'agit d'une constante et non d'une variable
                if Position_Label.Indice = 2 then --si la constante est en 2 position
                   Programme.Tab_Instruction(Position_Label.Ligne)(5) := 1 ;
                elsif Position_Label.Indice = 4 then --si la constante est en 4 position
@@ -483,9 +483,9 @@ package body Parser is
             end if;
             
          elsif To_String(Ligne_Split.Tab_Split_String(i)) = "FIN" then
-            null; --tableau de (0, 0, 0, 0, 0, 0) dÈj‡ dÈfini
+            null; --tableau de (0, 0, 0, 0, 0, 0) d√©j√† d√©fini
             
-         -- Si le mot commence par L et que le mot prÈcÈdent Ètait un GOTO (-2)
+         -- Si le mot commence par L et que le mot pr√©c√©dent √©tait un GOTO (-2)
          elsif To_String(Ligne_Split.Tab_Split_String(i))(1) = 'L' and then Tab_Instru(Indice-1) = -2 then
             --Appelle de la fonction Goto_Label
             Position_Label.Ligne := Programme.Taille;
@@ -494,9 +494,9 @@ package body Parser is
             
             Goto_Label (Label_Ligne, Label_GOTO, To_String(Ligne_Split.Tab_Split_String(i)), Position_Label, Correspondance_Variable);
             
-            -- Si la fonction prÈcÈdent ‡ renvoie une ligne donc il y a correspondance entre 2 label. On affecte donc le tableau d'entier avec la ligne du label que refÈrence le label.
+            -- Si la fonction pr√©c√©dent √† renvoie une ligne donc il y a correspondance entre 2 label. On affecte donc le tableau d'entier avec la ligne du label que ref√©rence le label.
             if Position_Label.Etat = 2 then 
-               -- On rÈfÈrence la ligne que point le label. 
+               -- On r√©f√©rence la ligne que point le label. 
                Tab_Instru(Indice) := Position_Label.Ligne;
                
                 --Ajout du 1 en colone 5 ou 6 pour indiquer qu'il s'agit d'une constante et non d'une variable
@@ -507,10 +507,10 @@ package body Parser is
                else
                   null;
                end if;
-               Indice := Indice +1; -- Ajout de 1 ‡ Indice
+               Indice := Indice +1; -- Ajout de 1 √† Indice
             elsif Position_Label.Etat = 1 then
                   Tab_Instru(Indice) := Position_Label.Indice;
-               Indice := Indice +1; -- Ajout de 1 ‡ Indice
+               Indice := Indice +1; -- Ajout de 1 √† Indice
             else
                null;                  
             end if;
@@ -523,7 +523,7 @@ package body Parser is
          
          end if;
       end loop;
-      -- Ajout du tableau d'entier au sein du programme ‡ la ligne correspondante 
+      -- Ajout du tableau d'entier au sein du programme √† la ligne correspondante 
       Programme.Tab_Instruction(Programme.Taille) := Tab_Instru; 
    end Convertir_Instruction;
    
@@ -552,7 +552,7 @@ package body Parser is
       Label_GOTO : T_Label;
       
    begin
-      -------------------------------Initialiser les variables nÈcessaire ----------------------------------------------
+      -------------------------------Initialiser les variables n√©cessaire ----------------------------------------------
       
       --Initialiser le tableau qui aura les instructions 
       Initialiser_Programme (Programme);
@@ -575,11 +575,11 @@ package body Parser is
          --Obtenir la ligne suivante 
          Ligne :=  To_Unbounded_String(Get_Line (F));
          
-         -- Si ligne = Programme ... c'est le dÈbut du programme
+         -- Si ligne = Programme ... c'est le d√©but du programme
          if To_String(Ligne)(1..9) = "Programme" then
             -- Obtenir la ligne
             Ligne :=  To_Unbounded_String(Get_Line (F));
-            -- Tant que ligne != Debut on est sur la dÈfinition de variable
+            -- Tant que ligne != Debut on est sur la d√©finition de variable
             while To_String(Ligne) /= "Debut" loop
                --Appelle de la fonction instancier variable
                Instancier_Variable (To_String(Ligne), Correspondance_Variable, Ma_Memoire);
@@ -587,15 +587,15 @@ package body Parser is
                Ligne :=  To_Unbounded_String(Get_Line (F));
             end loop;
          end if;
-         -- Si ligne = Debut On passe ‡ la creation de notre tableau d'instruction 
+         -- Si ligne = Debut On passe √† la creation de notre tableau d'instruction 
          if To_String(Ligne) = "Debut" then
             -- Tant que ligne != Fin nous avons des instruction de notre programme
             while To_String(Ligne) /= "Fin" loop
                --obtenir la ligne suivante
                Ligne :=  To_Unbounded_String(Get_Line (F));
-               --Augmenter la taille du programme instanciÈ de 1
+               --Augmenter la taille du programme instanci√© de 1
                Programme.Taille := Programme.Taille +1;
-               -- Appelle de la procÈdure analyse ligne pour convertir la ligne en un tableau d'entier qui correspond aux instructions de la ligne
+               -- Appelle de la proc√©dure analyse ligne pour convertir la ligne en un tableau d'entier qui correspond aux instructions de la ligne
                Analyse_Ligne (Ligne, Programme, Correspondance_Variable, Label_Ligne, Label_GOTO, Ma_Memoire);
                end loop;
             end if;
@@ -614,11 +614,11 @@ package body Parser is
       Create(F2, Out_File, "Resultat_Programme.txt"); --Creation du fichier
       --Parcourir le fichier et afficher chaque tableau d'entier
       for i in 1..Programme.Taille loop
-         -- Convertir chaque ÈlÈment du tableau en chaÓne de caractËres
+         -- Convertir chaque √©l√©ment du tableau en cha√Æne de caract√®res
          for j in Programme.Tab_Instruction(i)'Range loop
             Put(F2, Integer'Image(Programme.Tab_Instruction(i)(j)));
             if j < Programme.Tab_Instruction(i)'Last then
-               Put(F2, ' '); -- Ajouter un espace entre les ÈlÈments
+               Put(F2, ' '); -- Ajouter un espace entre les √©l√©ments
             end if;
          end loop;
          New_Line(F2);
