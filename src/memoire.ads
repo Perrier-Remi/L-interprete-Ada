@@ -3,8 +3,9 @@ with Ada.Text_IO;          use Ada.Text_IO;
 with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
 
 package Memoire is
-
-    type T_Type_Element is (Entier, Caractere, Chaine);
+   
+   
+   type T_Type_Element is (Entier, Caractere, Chaine);
 
     type T_Element (Type_Element : T_Type_Element) is record
         case Type_Element is
@@ -13,9 +14,10 @@ package Memoire is
             when Caractere =>
                 Valeur_Caractere : Character;
             when Chaine =>
-                Valeur_Chaine : Unbounded_String;
+            Valeur_Chaine : Unbounded_String;
         end case;
-    end record;
+   end record;
+   
     
     type T_Element_Access is access all T_Element;
 

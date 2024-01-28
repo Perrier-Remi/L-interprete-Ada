@@ -1,0 +1,16 @@
+Programme Facto est
+n, T1 : Entier <- 3
+caractere_1 : Caractere <- 'a'
+chaine_test : Chaine <- "je suis un test"
+Debut
+n <- 5
+L1 T1 <- n = 3
+IF T1 GOTO L3
+T1 <- chaine_test = "je suis un test"
+IF T1 GOTO L2
+Ecrire ("Trouver le nombre compris entre 1 et 4. Entrez un nombre ?")
+Lire (n)
+GOTO L1
+L2 Ecrire (caractere_1)
+L3 NULL
+Fin
