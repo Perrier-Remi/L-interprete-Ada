@@ -4,7 +4,7 @@ with Parser; use Parser;
 package Interpreteur is
 
     -- fonction permettant de configurer un branchement (ex : GOTO 8)
-    function parametrer_branchement(instruction : in T_Instruction; cp : in Integer) return Integer with
+    function parametrer_branchement(instruction : in T_Instruction) return Integer with
         Pre => instruction(1) = -2;
 
     -- fonction permettant de configurer une condition (ex : IF X GOTO 8)

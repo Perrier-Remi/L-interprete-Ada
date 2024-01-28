@@ -26,30 +26,30 @@ begin
     
     -- test instruction branchement
     cp := 1;
-    instruction := (-2, 3, 0, 0, 1, 0); -- GOTO 3
+    instruction := (-2, 3, 0, 0, 1, 0, 0, 0, 0); -- GOTO 3
     pragma Assert(not executer_ligne(mem, instruction, cp)); -- le programme n'étant pas fini, executer_ligne renvoie false
     pragma Assert(cp = 3);
 
     -- test instruction condition
     cp := 1;
-    instruction := (-1, 1, -2, 5, 0, 1); -- IF e1 GOTO 5 (faux → cp reste passe à l'instruction suivante)
+    instruction := (-1, 1, -2, 5, 0, 1, 0, 0, 0); -- IF e1 GOTO 5 (faux → cp reste passe à l'instruction suivante)
     pragma Assert(not executer_ligne(mem, instruction, cp));
     pragma Assert(cp = 2);
     
     cp := 1;
-    instruction := (-1, 2, -2, 8, 0, 1); -- IF e2 GOTO 8 (vrai → cp passe à 8)
+    instruction := (-1, 2, -2, 8, 0, 1, 0, 0, 0); -- IF e2 GOTO 8 (vrai → cp passe à 8)
     pragma Assert(not executer_ligne(mem, instruction, cp));
     pragma Assert(cp = 8);
 
     -- test instruction affectation
     cp := 1;    
-    instruction := (1, 3, 0, 0, 0, 0); -- e1 <- 3
+    instruction := (1, 3, 0, 0, 0, 0, 0, 0, 0); -- e1 <- 3
     pragma Assert(not executer_ligne(mem, instruction, cp));
     pragma Assert(cp = 2);
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 3);
 
     cp := 1;
-    instruction := (4, 6, 0, 0, 0, 0); -- c1 <- 'd'
+    instruction := (4, 6, 0, 0, 0, 0, 0, 0, 0); -- c1 <- 'd'
     pragma Assert(not executer_ligne(mem, instruction, cp));
     pragma Assert(cp = 2);
     pragma Assert(Renvoie_Variable(mem, 4).Valeur.Valeur_Caractere = 'd');
@@ -57,14 +57,14 @@ begin
     -- test instruction operation
     -- tous les cas d'opération ne sont pas traités ici mais dans le fichier test_executeur, ce test permet de vérifier que les opérations sont bien paramétrés
     cp := 1;
-    instruction := (1, 2, -3, 3, 0, 0); -- e1 <- e2 + 3
+    instruction := (1, 2, -3, 3, 0, 0, 0, 0, 0); -- e1 <- e2 + 3
     pragma Assert(not executer_ligne(mem, instruction, cp));
     pragma Assert(cp = 2);
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 13);
     
     -- test fin programme
     cp := 1;
-    instruction := (0, 0, 0, 0, 0, 0);
+    instruction := (0, 0, 0, 0, 0, 0, 0, 0, 0);
     pragma Assert(executer_ligne(mem, instruction ,cp));
     pragma Assert(cp = 1);
    

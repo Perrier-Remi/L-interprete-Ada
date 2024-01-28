@@ -4,61 +4,72 @@ with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 
 procedure Test_Memoire is
-   -- Déclarer une variable pour tester le package Memoire
-   Ma_Memoire : T_Memoire;
-   --Tab_Variable_Result : T_Tab_Variable;
-   Ma_Variable_Result : T_Variable;
-
-   -- Déclarer d'autres variables nécessaires pour les tests
-   Code_Test_1 : constant Integer := 1;
-   Valeur_Test_1 : constant Integer := 42;
-   Nom_Test_1 : Unbounded_String := To_Unbounded_String("Variable_Test");
-   Code_Test_2 : constant Integer := 2;
-   Valeur_Test_2 : constant Integer := 26;
-   Nom_Test_2 : Unbounded_String := To_Unbounded_String("Variable_B");
-
+    mem : T_Memoire;
+    var : T_Element_Access;
 
 begin
-   --  -- Initialiser Memoire
-   --  Initialiser(Ma_Memoire);
+    --  Initialiser Memoire
+    Initialiser(mem);
+    pragma Assert (Renvoie_Taille(mem) = 0);
 
-   --  --Test taille mémoire
-   --  Put_Line("Taille de T_Variable : " & Integer'Image(Renvoie_Taille(Ma_Memoire)));
-   --  pragma Assert (Renvoie_Taille(Ma_Memoire) = 0);
+    -- Test création d'une variable entière
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Entier, Valeur_Entier => 0), To_Unbounded_String("variable a"), False);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Nom = To_Unbounded_String("variable a"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Valeur.Type_Element = Entier);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 0);
 
-   --  --Implementer deux variable
-   --  Creer_Variable(Valeur_Test_1, Nom_Test_1, Ma_Memoire);
-   --  Creer_Variable(Valeur_Test_2, Nom_Test_2, Ma_Memoire);
+    -- Test création d'une variable caractère
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'b'), To_Unbounded_String("variable b"), False);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Nom = To_Unbounded_String("variable b"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Valeur.Type_Element = Caractere);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Valeur.Valeur_Caractere = 'b');
 
-   --  --Test taille mémoire instancié
-   --  Put_Line("Taille de T_Variable : " & Integer'Image(Renvoie_Taille(Ma_Memoire)));
-   --  pragma Assert (Renvoie_Taille(Ma_Memoire) = 2);
 
-   --  --Recupérer la variable de code 1
-   --  Ma_Variable_Result := Renvoie_Variable(Ma_Memoire, Code_Test_1);
-   --  pragma Assert (Ma_Variable_Result.Code = Code_Test_1);
-   --  pragma Assert (Ma_Variable_Result.Valeur = Valeur_Test_1);
-   --  pragma Assert (To_String(Ma_Variable_Result.Nom) = To_String(Nom_Test_1));
+    -- Test création d'une variable chaine de caractères
+    Memoire.Creer_Variable(mem, new T_Element'(Type_Element => Chaine, Valeur_chaine => To_Unbounded_String("ada")), To_Unbounded_String("variable c"), False);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Nom = To_Unbounded_String("variable c"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Valeur.Type_Element = Chaine);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Valeur.Valeur_Chaine = To_Unbounded_String("ada"));
 
-   --  --Modifier valeur variable code = 1
-   --  Affectation_Variable(Code_Test_1, Valeur_Test_1 + 10, Ma_Memoire);
+    -- Test Renvoie_Variable
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 0);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Nom = To_Unbounded_String("variable a"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Valeur.Type_Element = Entier);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Valeur.Valeur_Caractere = 'b');
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Nom = To_Unbounded_String("variable b"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Valeur.Type_Element = Caractere);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Valeur.Valeur_Chaine = To_Unbounded_String("ada"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Nom = To_Unbounded_String("variable c"));
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Valeur.Type_Element = Chaine);
 
-   --  --Recupérer tableau de Tab_Variable
-   --  --Tab_Variable_Result := Renvoie_Tab_Variable(Ma_Memoire);
+    -- Test d'affection d'une valeur à une variable entière
+    var := new T_Element'(Type_Element => Entier, Valeur_Entier => 5);
+    Memoire.Affectation_Variable(mem, 1, var);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 5);
 
-   --  -- Afficher le tableau de variable
-   --  Afficher_Memoire (Ma_Memoire);
-   --  --Put_Line("Affichage du tabeau des Variable :");
-   --  --for I in 1..Renvoie_Taille(Ma_Memoire) loop
-   --   --     Put_Line(" Variable " & Integer'Image(I) & " :");
-   --   --     Put_Line("Code : " & Integer'Image(Tab_Variable_Result(I).Code));
-   --   --     Put_Line("Valeur : " & Integer'Image(Tab_Variable_Result(I).Valeur));
-   --   --     Put_Line("Nom : " & To_String(Tab_Variable_Result(I).Nom));
-   --     --end loop;
+    -- Test d'affection d'une valeur à une variable caractère
+    var := new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'd');
+    Memoire.Affectation_Variable(mem, 2, var);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 2).Valeur.Valeur_Caractere = 'd');
 
-   --  --Afficher le code max et donc aussi la taille de la mémoire
-   --  New_Line;
-   --  Put_Line("Le code max est"& Integer'Image(Renvoie_Code_Max(Ma_Memoire)));
-   --  pragma Assert (Renvoie_Code_Max(Ma_Memoire) = 2);
+    -- Test d'affection d'une valeur à une variable chaine de caractères
+    var := new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("abcd"));
+    Memoire.Affectation_Variable(mem, 3, var);
+    pragma Assert (Memoire.Renvoie_Variable(mem, 3).Valeur.Valeur_Chaine = To_Unbounded_String("abcd"));
+
+    -- Test Renvoie_Tab_Variable
+    pragma Assert (Renvoie_Tab_Variable(mem)(1).Valeur.Valeur_Entier = 5);
+    pragma Assert (Renvoie_Tab_Variable(mem)(1).Nom = To_Unbounded_String("variable a"));
+    pragma Assert (Renvoie_Tab_Variable(mem)(1).Valeur.Type_Element = Entier);
+    pragma Assert (Renvoie_Tab_Variable(mem)(2).Valeur.Valeur_Caractere = 'd');
+    pragma Assert (Renvoie_Tab_Variable(mem)(2).Nom = To_Unbounded_String("variable b"));
+    pragma Assert (Renvoie_Tab_Variable(mem)(2).Valeur.Type_Element = Caractere);
+    pragma Assert (Renvoie_Tab_Variable(mem)(3).Valeur.Valeur_Chaine = To_Unbounded_String("abcd"));
+    pragma Assert (Renvoie_Tab_Variable(mem)(3).Nom = To_Unbounded_String("variable c"));
+    pragma Assert (Renvoie_Tab_Variable(mem)(3).Valeur.Type_Element = Chaine);
+
+    -- Test Renvoie_Taille
+    pragma Assert (Renvoie_Taille(mem) = 3);
+
    null;
 end Test_Memoire;

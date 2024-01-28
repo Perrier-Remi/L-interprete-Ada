@@ -4,7 +4,7 @@ with Memoire; use Memoire;
 
 package body executeur is
     
-    function branchement(valCp : in integer; nouveauCp : in integer) return Integer is
+    function branchement(nouveauCp : in integer) return Integer is
     begin
         return nouveauCp;
     end;

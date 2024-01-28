@@ -8,7 +8,7 @@ with Parser; use Parser;
 procedure test_executeur is
     -- Déclarer une variable pour tester le package Memoire
     mem : T_Memoire;
-    
+    var : T_Element_Access;
 begin
     -- initialisition memoire
     Initialiser(mem);
@@ -21,9 +21,9 @@ begin
    
     
     -- tests branchement
-    pragma Assert(branchement(2,1) = 1);
-    pragma Assert(branchement(2,2) = 2);
-    pragma Assert(branchement(2,10) = 10);
+    pragma Assert(branchement(1) = 1);
+    pragma Assert(branchement(2) = 2);
+    pragma Assert(branchement(10) = 10);
 
     -- tests condition
     pragma Assert(condition(0,4,10) = 5);
@@ -33,17 +33,23 @@ begin
     -- tests affectation
     -- affectation : e1 <- 5
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 0);
-    affectation(mem, 1, new T_Element'(Type_Element => Entier, Valeur_Entier => 5));
+    var := Renvoie_Variable(mem, 1).Valeur;
+    var.Valeur_Entier := 5;
+    affectation(mem, 1, var);
     pragma Assert(Renvoie_Variable(mem, 1).Valeur.Valeur_Entier = 5);
     
     -- affectation : c1 <- 'c'
     pragma Assert(Renvoie_Variable(mem, 3).Valeur.Valeur_Caractere = 'a');
-    affectation(mem, 3, new T_Element'(Type_Element => Caractere, Valeur_Caractere => 'c'));
+    var := Renvoie_Variable(mem, 3).Valeur;
+    var.Valeur_Caractere := 'c';
+    affectation(mem, 3, var);
     pragma Assert(Renvoie_Variable(mem, 3).Valeur.Valeur_Caractere = 'c');
     
     -- affectation : s1 <- "ada"
     pragma Assert(Renvoie_Variable(mem, 5).Valeur.Valeur_Chaine = "aa");
-    affectation(mem, 5, new T_Element'(Type_Element => Chaine, Valeur_Chaine => To_Unbounded_String("ada")));
+    var := Renvoie_Variable(mem, 5).Valeur;
+    var.Valeur_Chaine := To_Unbounded_String("ada");
+    affectation(mem, 5, var);
     pragma Assert(Renvoie_Variable(mem, 5).Valeur.Valeur_Chaine = "ada");
 
     --tests operation

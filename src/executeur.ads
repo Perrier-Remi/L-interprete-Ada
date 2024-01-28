@@ -3,7 +3,7 @@ with Memoire; use Memoire;
 package Executeur is
 
 	-- Réaliser un branchement, mettre cp à la valeur souhaité 
-    function branchement(valCp : in integer; nouveauCp : in integer) return Integer with
+    function branchement(nouveauCp : in integer) return Integer with
         Post => branchement'Result = nouveauCp;
 
 	-- Tester la condition et appeler branchement cp si condition valide sinon exécuter la ligne suivante

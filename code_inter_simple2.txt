@@ -6,8 +6,8 @@ a <- i
 b <- i - 8
 IF b GOTO L1
 b <- 0
-Ecrire (b)
 L1 b <- 12
+Ecrire (b)
 NULL
 Fin
 

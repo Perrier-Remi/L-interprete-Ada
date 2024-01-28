@@ -4,11 +4,11 @@ with Parser; use Parser;
 
 package body interpreteur is
     
-    function parametrer_branchement(instruction : in T_Instruction; cp : in Integer) return Integer is
+    function parametrer_branchement(instruction : in T_Instruction) return Integer is
         valeur : Integer;
     begin
         valeur := instruction(2); -- valeur du saut à effectuer
-        return Executeur.branchement(cp, valeur);
+        return Executeur.branchement(valeur);
     end;
 
     function parametrer_condition(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
@@ -80,7 +80,7 @@ package body interpreteur is
     begin
         -- branchement
         if instruction(1) = -2 then
-            cp := parametrer_branchement(instruction, cp);
+            cp := parametrer_branchement(instruction);
         -- condition
         elsif instruction(1) = -1 and then instruction (3) = -2 then
             cp := parametrer_condition(mem, instruction, cp);
