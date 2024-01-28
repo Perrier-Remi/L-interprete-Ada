@@ -45,6 +45,4 @@ begin
    Afficher_Memoire (Memoire2);
    Renvoyer_Resultat_Programme (Programme_2);
    --Put_Line (Integer'Image(Programme_1.Taille));
-
-   --Test test
 end test_parser;
