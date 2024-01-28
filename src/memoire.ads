@@ -4,6 +4,7 @@ with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
 
 package Memoire is    
     
+    ----- definition des types pour la mémoire ------------
     type T_Type_Element is (Entier, Caractere, Chaine, Tableau);
     
     type T_Element (Type_Element : T_Type_Element) is record
