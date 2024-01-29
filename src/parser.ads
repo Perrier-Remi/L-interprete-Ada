@@ -3,6 +3,8 @@ USE Ada.Text_IO , Ada.Strings.Unbounded, Memoire;
 
 package Parser is
    ------------------------CrÃ©ation des types ------------------------------------------------
+   
+   --Creation des types pour cree le tableau d'instruction equivalent au programme
 
    --Création des types pour crée le tableau d'instruction équivalent au programme
    NB_INSTRUCTIONS : Constant Integer := 9;
@@ -12,7 +14,7 @@ package Parser is
    
    type T_Programme is record
          Tab_Instruction : T_Tab_Instruction; --tableau contenant les instructions
-         Taille : Integer; --taille du tableau qui est dÃ©fini
+         Taille : Integer; --taille du tableau qui est dÃÂ©fini
    end record;
    
   

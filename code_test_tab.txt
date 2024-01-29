@@ -1,0 +1,9 @@
+Programme codeTest est
+a : Entier
+tab : Tableau (1..3) Entier
+Debut
+a <- 2
+tab(1) <- 1 + 2
+tab(a) <- tab(1) + 2
+tab(a) <- tab(1) + tab(1)
+Fin
