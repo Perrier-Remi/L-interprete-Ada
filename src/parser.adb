@@ -351,6 +351,7 @@ package body Parser is
                Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
                Creer_Variable(Memoire, new T_Element'(Type_Element => Caractere, Valeur_Caractere => Variable(Variable'First + 1)), Nom_Var , True);
                Tab_Instru(Indice) := Memoire.Taille;
+               Indice := Indice + 1;
             ---Test pour savoir s'il s'agit d'une chaine de caractere
          elsif Variable(Variable'Last) = '"' then
                Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
@@ -363,7 +364,6 @@ package body Parser is
             --test pour savoir si c'est un entier 
          else 
                Nombre :=  Integer'Value(Variable);
-               Put_Line(Integer'Image(Nombre));
             Nom_Var := To_Unbounded_String("Var_Prog" & Integer'Image(Memoire.Taille+1));
             Correspondance_Variable.Taille := Correspondance_Variable.Taille + 1;
             Correspondance_Variable.Tab_Nom_Variabe(Correspondance_Variable.Taille) := Nom_var;
@@ -601,13 +601,12 @@ package body Parser is
             null;
             
             else 
-               Check_Variable (Tab_Instru, Correspondance_Variable, Memoire, To_String(Ligne_Split.Tab_Split_String(i)), Indice);
-         
+            Check_Variable (Tab_Instru, Correspondance_Variable, Memoire, To_String(Ligne_Split.Tab_Split_String(i)), Indice);
+            
          end if;
       end loop;
       -- Ajout du tableau d'entier au sein du programme a  la ligne correspondante 
       Programme.Tab_Instruction(Programme.Taille) := Tab_Instru; 
-      Put_Line (Integer'Image(Programme.Taille));
    end Convertir_Instruction;
    
    
@@ -711,3 +710,5 @@ package body Parser is
    end Renvoyer_Resultat_Programme;
    
 end Parser;
+
+-------------------- Fin Body du parser -------------------------- 
