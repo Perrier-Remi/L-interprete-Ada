@@ -32,7 +32,7 @@ procedure test_parser is
       --test initialisation de variable
       pragma assert ( Programme_2.Tab_Instruction(1) = (1,16,0,0,0,0,0,0,0), "ligne 1 fausse" );
       pragma assert ( Memoire2.Tab_var(3).Valeur.Valeur_Caractere = 'a', "erreur affectaction variable caractere_1");
-      pragma assert ( Programme_2.Tab_Instruction(10) = (5,20,0,0,0,0,2,0,0), "ligne 10 fausse L3 Tab1(2) <- 2");
+      pragma assert ( Programme_2.Tab_Instruction(10) = (5,21,0,0,0,0,20,0,0), "ligne 10 fausse L3 Tab1(2) <- 2");
 
       --test sur chaine de caratere
       pragma assert ( Programme_2.Tab_Instruction(4) = (2,4,-7,18,0,0,0,0,0), "T1 <- chaine_test = je suis un test ");
@@ -67,7 +67,4 @@ begin
    end if;
    New_Line;
    Put_Line ("Un Fichier Resultat_Programme.txt a été crée avec les codes des instructions correspondant au Programme en sortie du parser. ");
-   --Lire_Fichier("code_test_tab.txt", Programme_1, Memoire1);
-   --Afficher_Memoire (Memoire1);
-   --Renvoyer_Resultat_Programme (Programme_1);
 end test_parser;
