@@ -1,7 +1,38 @@
-Raffinage de l'interpreteur :
-
 procedure executer_ligne :
-	R0 : exécuter une ligne de programme
-	R1 : Comment exécuter une ligne de programme
+	R0 : Exécuter une ligne de programme ?
+	R1 : Comment exécuter une ligne de programme ?
+	R11 : Détecter le type d'une instruction et paramétrer l'instruction en fonction de son type	
 	
-	
+	R21 : Comment détecter le type d'une instruction et exécuter l'instruction en fonction de son type ?
+	si instruction(1) = -2 alors
+		paramétrer un branchement et changer cp en fonction du branchement
+	sinon si instruction(1) = -1 et instruction(3) = -2 alors
+		paramétrer une condition et changer cp en fonction de la condition
+	sinon si instruction(1) > 0 et instruction(3) = 0 et instruction(4) = 0 alors
+		paramétrer une affectation et incrémenter cp
+	sinon si instruction(3) < 0 alors
+		paramétrer une opération et incrémenter cp
+	sinon si instrution(1) = -14 ou instruction(1) = -15 alors
+		paramétrer une lecture ou écriture et incrémenter cp
+	sinon si instruction(1) = -13 alors
+		cp <- cp + 1;
+	fin si
+
+	R31 : Comment paramétrer un branchement et changer cp en fonction du branchement ?
+		cp := insctruction(2);
+
+	R32 : Comment paramétrer une condition et changer cp en fonction de la condition ?
+		test := adresse_memoire(mem, instruction(2), instruction(8)).Valeur.Valeur_Entier;
+		valeur_saut := instruction(4);
+		return Executeur.confition(test, cp, valeur_saut);
+
+	R33 : Comment paramétrer une affectation et incrémenter cp ?
+	        varDest := adresse_memoire(mem, instruction(1), instruction(7)).Code;
+	        valSource := adresse_memoire(mem, instruction(2), instruction(8)).Valeur; -- valeur de la variable source
+		Executeur.affectation(mem, varDest, valSource);
+		return cp + 1;
+
+	R34 : Comment paramétrer une opération et incrémenter cp ?
+		
+	R35 : Comment paramétrer une lecture ou écrite et incrémenter cp ?
+		
