@@ -60,10 +60,14 @@ begin
           Afficher_Memoire (Memoire1);
           Renvoyer_Resultat_Programme (Programme_1);
        else
-       test_parser (Programme_2, Memoire2);
-       Afficher_Memoire (Memoire2);
-       Renvoyer_Resultat_Programme (Programme_2);
+       --test_parser (Programme_2, Memoire2);
+       --Afficher_Memoire (Memoire2);
+       --Renvoyer_Resultat_Programme (Programme_2);
+       null;
    end if;
    New_Line;
    Put_Line ("Un Fichier Resultat_Programme.txt a été crée avec les codes des instructions correspondant au Programme en sortie du parser. ");
+   Lire_Fichier("code_test_tab.txt", Programme_1, Memoire1);
+   Afficher_Memoire (Memoire1);
+   Renvoyer_Resultat_Programme (Programme_1);
 end test_parser;
