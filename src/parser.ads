@@ -2,13 +2,9 @@ WITH Ada.Text_IO , Ada.Strings.Unbounded, Memoire;
 USE Ada.Text_IO , Ada.Strings.Unbounded, Memoire;
 
 package Parser is
-   ------------------------Création des types ------------------------------------------------
-   
-<<<<<<< HEAD
+   ------------------------CrÃ©ation des types ------------------------------------------------
+
    --Création des types pour crée le tableau d'instruction équivalent au programme
-=======
-   --Cr�ation des types pour cr�e le tableau d'instruction �quivalent au programme
->>>>>>> cf40a2f (parser ok)
    NB_INSTRUCTIONS : Constant Integer := 9;
    MAX_LIGNES_PROGRAMME : Constant Integer := 1000;
    type T_Instruction is array (1..NB_INSTRUCTIONS) of Integer;
@@ -16,7 +12,7 @@ package Parser is
    
    type T_Programme is record
          Tab_Instruction : T_Tab_Instruction; --tableau contenant les instructions
-         Taille : Integer; --taille du tableau qui est défini
+         Taille : Integer; --taille du tableau qui est dÃ©fini
    end record;
    
   

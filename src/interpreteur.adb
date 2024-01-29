@@ -4,6 +4,19 @@ with Parser; use Parser;
 
 package body interpreteur is
     
+    function adresse_memoire(mem : in T_Memoire; code_var : in Integer; code_tab : in Integer) return T_Variable is
+        var : T_Variable;
+        var_retour : T_Variable;
+    begin
+        var := Memoire.Renvoie_Variable(mem, code_var);
+        if var.Valeur.Type_Element = Tableau then
+            var_retour := Memoire.Renvoie_Variable(mem, var.Code + Memoire.Renvoie_Variable(mem, code_tab).Valeur.Valeur_Entier);
+        else 
+            var_retour := Memoire.Renvoie_Variable(mem, code_var);
+        end if;
+        return var_retour;
+    end;
+                   
     function parametrer_branchement(instruction : in T_Instruction) return Integer is
         valeur : Integer;
     begin
@@ -14,8 +27,9 @@ package body interpreteur is
     function parametrer_condition(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         test : Integer;
         valeur : Integer;
+        var : T_Variable;
     begin
-        test := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur.Valeur_Entier; -- récupération de la valeur de la variable de test
+        test := adresse_memoire(mem, instruction(2), instruction(8)).Valeur.Valeur_Entier;
         valeur := instruction(4); -- valeur du saut à effectuer si le test est vrai
         return Executeur.condition(test, cp, valeur);
     end;
@@ -25,8 +39,8 @@ package body interpreteur is
         valSource : T_Element_Access;
         erreur_code_intermediaire : exception;
     begin
-        varDest := instruction(1); -- indice de la variable de destination dans la mémoire
-        valSource := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur; -- valeur de la variable source
+        varDest := adresse_memoire(mem, instruction(1), instruction(7)).Code;
+        valSource := adresse_memoire(mem, instruction(2), instruction(8)).Valeur; -- valeur de la variable source
         
         -- si le type de destination est différent du type source, alors on lève une exception
         if Memoire.Renvoie_Variable(mem, varDest).Valeur.Type_Element /= valSource.Type_Element then
@@ -45,9 +59,9 @@ package body interpreteur is
         operateur : Integer;
         erreur_code_intermediaire : exception;
     begin
-        varDest := instruction(1); -- indice de la variable de destination dans la mémoire
-        valSource1 := Memoire.Renvoie_Variable(mem, instruction(2)).Valeur; -- valeur de la première variable source
-        valSource2 := Memoire.Renvoie_Variable(mem, instruction(4)).Valeur; -- valeur de la seconde variable source
+        varDest := adresse_memoire(mem, instruction(1), instruction(7)).Code; -- indice de la variable de destination dans la mémoire
+        valSource1 := adresse_memoire(mem, instruction(2), instruction(8)).Valeur; -- valeur de la première variable source
+        valSource2 := adresse_memoire(mem, instruction(4), instruction(9)).Valeur; -- valeur de la seconde variable source
         operateur := instruction(3); -- code de l'opétateur
         
         -- si les types des deux valeurs sources sont différents, alors on lève une exception
@@ -63,7 +77,7 @@ package body interpreteur is
         var : Integer;
         operateur : Integer;
     begin
-        var := instruction(2); -- code de la variable à lire ou écrire
+        var := adresse_memoire(mem, instruction(2), instruction(8)).Code; -- code de la variable à lire ou écrire
         operateur := instruction(1); -- opérateur valant -14 ou -15 pour lire ou écrire
         
         Executeur.lire_ecrire(mem, var, operateur);
