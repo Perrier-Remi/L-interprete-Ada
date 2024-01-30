@@ -1,7 +1,8 @@
 Programme Facto est
-n, i, Fact, T1, T2, T3 : Entier
-a : Chaine
+i, j, k, min_index, temp, for_i, for_j, for_k, for_l, if_1 : Entier
+CAPACITE : Entier <- 8
+tab : Tableau (1..8) Entier
 Debut
-a <- "abcd"
-L2 NULL
+L2 i <- 1
+L8 k <- 1
 Fin

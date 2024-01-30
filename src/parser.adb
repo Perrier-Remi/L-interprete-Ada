@@ -357,7 +357,7 @@ package body Parser is
       else 
          --- La variable n'est pas un tableau
          
-         --Test pour savoir si la variable est une variable connu déjà dans la mémoire
+         --Test pour savoir si la variable est une variable connu deja� dans la memoire
       Result := Est_Variable (Correspondance_Variable, Variable);
       if Result > 0 then 
          Tab_Instru(Indice) := Result;

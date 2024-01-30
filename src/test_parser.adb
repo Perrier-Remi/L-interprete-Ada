@@ -61,7 +61,8 @@ begin
 
           Afficher_Memoire (Memoire1);
           Renvoyer_Resultat_Programme (Programme_1);
-       else
+   else
+      null;
        test_parser (Programme_2, Memoire2);
        Afficher_Memoire (Memoire2);
        Renvoyer_Resultat_Programme (Programme_2);
