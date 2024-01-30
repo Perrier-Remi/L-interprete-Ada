@@ -1,6 +1,4 @@
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Text_IO;          use Ada.Text_IO;
-with Ada.Integer_Text_IO;  use Ada.Integer_Text_IO;
+with Ada.Text_IO; use Ada.Text_IO;
 
 package body Memoire is
     
@@ -46,7 +44,6 @@ package body Memoire is
     
     --Renvoie la variable correspondante au code passé en paramètre
     function Renvoie_Variable (Memoire : in T_Memoire; Code : in integer) return T_Variable is
-        Result : T_Variable; 
     begin
         -- Rechercher la variable correspondante dans le tableau
         --      for I in 1.. Memoire.Taille loop
@@ -87,7 +84,7 @@ package body Memoire is
                 when Caractere =>
                     valeur := To_Unbounded_String(Character'Image(variable.Valeur_Caractere));
                 when Chaine =>
-                    valeur := variable.Valeur_Chaine;
+                    valeur := To_Unbounded_String(" ") & variable.Valeur_Chaine;
                 when Tableau =>
                     valeur := To_Unbounded_String(" (");
                     for J in I+1..I+variable.Valeur_Taille_Tableau loop

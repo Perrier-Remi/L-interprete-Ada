@@ -2,6 +2,8 @@ with Memoire; use Memoire;
 
 package Executeur is
 
+    erreur_code_intermediaire : exception;
+    
 	-- Réaliser un branchement, mettre cp à la valeur souhaité 
     function branchement(nouveauCp : in integer) return Integer with
         Post => branchement'Result = nouveauCp;

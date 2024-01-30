@@ -3,6 +3,9 @@ with Parser; use Parser;
 
 package Interpreteur is
 
+    -- fonction permettant de récupérer une variable si elle se trouve dans un tableau ou non
+    function adresse_memoire(mem : in T_Memoire; code_var : in Integer; code_tab : in Integer) return T_Variable;
+
     -- fonction permettant de configurer un branchement (ex : GOTO 8)
     function parametrer_branchement(instruction : in T_Instruction) return Integer with
         Pre => instruction(1) = -2;

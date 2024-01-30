@@ -1,8 +1,6 @@
 with Memoire; use Memoire;
 with Interpreteur; use Interpreteur;
-with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Parser; use Parser;
 
 

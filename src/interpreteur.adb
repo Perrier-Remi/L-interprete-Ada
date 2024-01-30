@@ -1,6 +1,4 @@
 with Executeur; use Executeur;
-with Memoire; use Memoire;
-with Parser; use Parser;
 
 package body interpreteur is
     
@@ -27,7 +25,6 @@ package body interpreteur is
     function parametrer_condition(mem : in T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         test : Integer;
         valeur : Integer;
-        var : T_Variable;
     begin
         test := adresse_memoire(mem, instruction(2), instruction(8)).Valeur.Valeur_Entier;
         valeur := instruction(4); -- valeur du saut à effectuer si le test est vrai
@@ -37,7 +34,6 @@ package body interpreteur is
     function parametrer_affectation(mem : in out T_Memoire; instruction : in T_Instruction; cp : in Integer) return Integer is
         varDest : Integer;
         valSource : T_Element_Access;
-        erreur_code_intermediaire : exception;
     begin
         varDest := adresse_memoire(mem, instruction(1), instruction(7)).Code;
         valSource := adresse_memoire(mem, instruction(2), instruction(8)).Valeur; -- valeur de la variable source
@@ -57,7 +53,6 @@ package body interpreteur is
         valSource1 : T_Element_Access;
         valSource2 : T_Element_Access;
         operateur : Integer;
-        erreur_code_intermediaire : exception;
     begin
         varDest := adresse_memoire(mem, instruction(1), instruction(7)).Code; -- indice de la variable de destination dans la mémoire
         valSource1 := adresse_memoire(mem, instruction(2), instruction(8)).Valeur; -- valeur de la première variable source
@@ -90,7 +85,6 @@ package body interpreteur is
     end;
     
     function executer_ligne(mem : in out T_Memoire; instruction : in T_Instruction; cp : in out Integer) return Boolean is
-        erreur_code_intermediaire : exception;
     begin
         -- branchement
         if instruction(1) = -2 then
@@ -113,11 +107,6 @@ package body interpreteur is
         end if;
         
         return programme_fini(instruction);
-        
-    exception 
-        when erreur_code_intermediaire =>
-            raise erreur_code_intermediaire;
-            return True;
     end;
     
 end interpreteur;

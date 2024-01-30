@@ -1,6 +1,5 @@
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Text_IO; use Text_IO;
-with Memoire; use Memoire;
 
 package body executeur is
     
@@ -23,15 +22,14 @@ package body executeur is
     
     procedure affectation (mem : in out T_Memoire; varDest : in integer; valeur : in T_Element_Access) is
     begin
-        Memoire.Affectation_Variable(mem, varDest, valeur);
+        Affectation_Variable(mem, varDest, valeur);
     end;
 
     procedure operation(mem : in out T_Memoire; varDest : in Integer; valSource1 : in T_Element_Access; valSource2 : in T_Element_Access; operateur : in integer) is
         valDest : T_Element_Access;  -- Variable de destination pour le résultat de l'opération
         typeVarDest : T_Type_Element;  -- Type de la variable de destination
-        erreur_code_intermediaire : exception;  -- Code d'erreur en cas de résultat nul
     begin
-        valDest := Memoire.Renvoie_Variable(mem, varDest).Valeur;  -- Récupération de la valeur actuelle de la variable de destination
+        valDest := Renvoie_Variable(mem, varDest).Valeur;  -- Récupération de la valeur actuelle de la variable de destination
         typeVarDest := valDest.Type_Element;  -- Obtention du type de la variable de destination
                                               
         -- Vérification du type de la source1 (Entier, Caractère, Chaine) et du type de destination (Entier)
