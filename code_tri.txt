@@ -1,0 +1,11 @@
+Programme TriTest est
+k, for_k : Entier
+CAPACITE : Entier <- 8
+tab : Tableau (1..8) Entier
+Debut
+k <- 1
+L9 Lire (tab(k))
+for_k <- k < 8
+k <- k + 1
+IF for_k GOTO L9
+Fin

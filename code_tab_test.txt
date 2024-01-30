@@ -6,5 +6,6 @@ a <- 2
 tab(1) <- 1 + 2
 tab(a) <- tab(1) + 2
 tab(a) <- tab(1) + tab(1)
-Ecrire (tab(a))
+Lire (tab(a))
+Ecrire (a)
 Fin

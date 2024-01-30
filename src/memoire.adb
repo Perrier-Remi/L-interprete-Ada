@@ -32,27 +32,12 @@ package body Memoire is
     -- Affecter la variable avec la valeur passé en paramètre et appelle de la fonction affecter du bon package
     procedure Affectation_Variable (Memoire : in out T_Memoire; Code : in integer; Valeur : in T_Element_Access) is
     begin
-        -- Rechercher la variable correspondante dans le tableau
-        --    for I in 1..Memoire.Taille loop
-        --        if Memoire.Tab_var(I).Code = Code then
-        --            -- Affecter la nouvelle valeur à la variable
-        --            Memoire.Tab_var(I).Valeur := Valeur;
-        --        end if;
-        --    end loop;
         Memoire.Tab_var(Code).Valeur := Valeur;
     end Affectation_Variable;
     
     --Renvoie la variable correspondante au code passé en paramètre
     function Renvoie_Variable (Memoire : in T_Memoire; Code : in integer) return T_Variable is
     begin
-        -- Rechercher la variable correspondante dans le tableau
-        --      for I in 1.. Memoire.Taille loop
-        --         if Memoire.Tab_var(I).Code = Code then
-        --           Result := Memoire.Tab_var(I);
-        --            exit;
-        --         end if;
-        --      end loop;
-        --      return Result;
         return Memoire.Tab_var(Code);
     end Renvoie_Variable;
     

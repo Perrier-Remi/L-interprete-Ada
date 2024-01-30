@@ -22,6 +22,7 @@ begin
     
     -- tests branchement
     pragma Assert(branchement(1) = 1);
+    pragma Assert_Failure(branchement(-3));
     pragma Assert(branchement(2) = 2);
     pragma Assert(branchement(10) = 10);
 

@@ -8,7 +8,7 @@ package body interpreteur is
     begin
         var := Memoire.Renvoie_Variable(mem, code_var);
         if var.Valeur.Type_Element = Tableau then
-            var_retour := Memoire.Renvoie_Variable(mem, var.Code + Memoire.Renvoie_Variable(mem, code_tab).Valeur.Valeur_Entier);
+            var_retour := Memoire.Renvoie_Variable(mem, code_var + Memoire.Renvoie_Variable(mem, code_tab).Valeur.Valeur_Entier);
         else 
             var_retour := Memoire.Renvoie_Variable(mem, code_var);
         end if;

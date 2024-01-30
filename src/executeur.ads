@@ -6,11 +6,11 @@ package Executeur is
     
 	-- Réaliser un branchement, mettre cp à la valeur souhaité 
     function branchement(nouveauCp : in integer) return Integer with
+        Pre => nouveauCp > 0,
         Post => branchement'Result = nouveauCp;
 
 	-- Tester la condition et appeler branchement cp si condition valide sinon exécuter la ligne suivante
-    function condition (test : integer; valCp : in integer; nouveauCp : in integer) return Integer with
-        Post => condition'Result > valCp;
+    function condition (test : integer; valCp : in integer; nouveauCp : in integer) return Integer;
 
     -- Affecter une valeur à une variable
     procedure affectation (mem : in out T_Memoire; varDest : in integer; valeur : in T_Element_Access) with
