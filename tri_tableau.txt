@@ -1,5 +1,5 @@
 Programme Tri_Tableau est
-i, j, min_index, temp, for_i, for_j, for_k, for_l, if_1 : Entier
+i, j, k, l, min_index, temp, for_i, for_j, for_k, for_l, if_1 : Entier
 CAPACITE : Entier <- 8
 tab : Tableau (1..8) Entier
 Debut
