@@ -14,4 +14,5 @@ Lire (n)
 GOTO L1
 L2 Ecrire (caractere_1)
 L3 Tab1(2) <- 2
+Ecrire (Tab1(2))
 Fin

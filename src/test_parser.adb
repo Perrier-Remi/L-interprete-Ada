@@ -36,10 +36,12 @@ procedure test_parser is
 
       --test sur chaine de caratere
       pragma assert ( Programme_2.Tab_Instruction(4) = (2,4,-7,18,0,0,0,0,0), "T1 <- chaine_test = je suis un test ");
-      --pragma assert ( Programme_1.Tab_Instruction(8) = (-2,15,0,0,1,0), "ligne 8 fausse GOTO L2 ");
-      --test affectation
-      --pragma assert ( Programme_1.Tab_Instruction(9) = (3,3,-5,2,0,0), "ligne 9 fausse L3 Fact <- Fact * i" );
-      --pragma assert ( Programme_1.Tab_Instruction(12) = (5,2,-7,1,0,0), "ligne 12 fausse T2 <- i = n" );
+
+      --test Lire Ecrire
+      pragma assert ( Programme_2.Tab_Instruction(6) = (-14,19,0,0,0,0,0,0,0), "ligne 6 fausse Ecrire (Trouver le nombre compris entre 1 et 4. Entrez un nombre ?)" );
+      pragma assert ( Programme_2.Tab_Instruction(7) = (-15,1,0,0,0,0,0,0,0), "ligne 7 fausse Lire (n)" );
+      pragma assert ( Programme_2.Tab_Instruction(11) = (-14,5,0,0,0,0,0,22,0), "ligne 11 fausse Ecrire (Tab1(2))" );
+
    end test_parser;
 
 begin
