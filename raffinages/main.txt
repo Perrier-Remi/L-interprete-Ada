@@ -1,0 +1,26 @@
+raffinage du main:
+
+R0 : exécuter un code intermédiaire
+R1 : Comment exécuter un code intermédiaire ?
+R11 : Initialiser le programme
+R13 : exécuter les instructions du code intermédiaire
+
+R21 : Comment initiliser le programme ?
+    -- choix du mode d'exécution
+    mode := Menu;
+
+    -- chargement du programme et initialisation de la mémoire
+    Initialiser_Main(prog, mem);
+    cp := 1;
+    prog_fini := false;
+
+R22 : Comment Exécuter les instructions du code intermédiaire ? 
+    loop
+        if mode = MODE_DEBUG then
+            Afficher_Debug;
+        end if;
+        instruction_courrante := prog.Tab_Instruction(cp);
+        prog_fini := executer_ligne(mem, instruction_courrante, cp);
+        exit when prog_fini;
+    end loop;
+

@@ -33,6 +33,12 @@ procedure executer_ligne :
 		return cp + 1;
 
 	R34 : Comment paramétrer une opération et incrémenter cp ?
+	        varDest := adresse_memoire(mem, instruction(1), instruction(7)).Code; -- indice de la variable de destination dans la mémoire
+	        valSource1 := adresse_memoire(mem, instruction(2), instruction(8)).Valeur; -- valeur de la première variable source
+        	valSource2 := adresse_memoire(mem, instruction(4), instruction(9)).Valeur; -- valeur de la seconde variable source
+        	operateur := instruction(3); -- code de l'opétateur
 		
 	R35 : Comment paramétrer une lecture ou écrite et incrémenter cp ?
-		
+	        var := adresse_memoire(mem, instruction(2), instruction(8)).Code; -- code de la variable à lire ou écrire
+	        operateur := instruction(1); -- opérateur valant -14 ou -15 pour lire ou écrire
+
